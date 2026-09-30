@@ -22,7 +22,7 @@ kmod-atlantic kmod-bnx2x kmod-i40e kmod-i40evf kmod-iavf kmod-igb kmod-igbvf kmo
 kmod-sound-hda-core kmod-sound-hda-codec-realtek kmod-sound-hda-codec-via kmod-sound-via82xx kmod-sound-hda-intel kmod-sound-hda-codec-hdmi kmod-sound-i8x0 \
 kmod-usb-net kmod-usb-net-aqc111 kmod-usb-net-asix-ax88179 kmod-usb-net-rtl8150 kmod-mlx4-core kmod-mlx5-core kmod-drm-i915 kmod-drm-amdgpu kmod-usb-audio \
 kmod-usb-net-rtl8152-vendor kmod-r8125-rss kmod-r8126-rss kmod-r8168 kmod-8139cp kmod-8139too kmod-tg3 lm-sensors autocore-x86 automount autosamba ca-bundle \
-ddns-scripts_aliyun ddns-scripts_dnspod ca-certificates \
+ca-certificates \
 dockerd docker open-vm-tools \
 bind-dig unrar unzip dmesg p7zip \
 luci-theme-infinityfreedom luci-theme-argon-dark-mod luci-theme-netgear luci-theme-opentomato luci-theme-opentomcat \
