@@ -9,6 +9,9 @@ board_config_update
 board=$(board_name)
 
 case "$board" in
+linksys,e8350-v1)
+	ucidef_set_led_wlan "wlan" "WLAN" "green:wifi" "phy0tpt"
+	;;
 buffalo,wxr-2533dhp)
 	ucidef_set_led_wlan "wlan" "WLAN" "white:wireless" "phy0tpt"
 	ucidef_set_led_switch "wan" "WAN" "white:internet" "switch0" "0x20"

@@ -1767,6 +1767,9 @@ static int __init fast_classifier_init(void)
 	printk(KERN_ALERT "fast-classifier: starting up\n");
 	DEBUG_INFO("SFE CM init\n");
 
+	/* Initialize state before registering callbacks that can use it. */
+	spin_lock_init(&sc->lock);
+
 	hash_init(fc_conn_ht);
 
 	/*
@@ -1881,8 +1884,6 @@ static int __init fast_classifier_init(void)
 #endif
 
 	printk(KERN_ALERT "fast-classifier: registered\n");
-
-	spin_lock_init(&sc->lock);
 
 	/*
 	 * Hook the receive path in the network stack.
@@ -2005,4 +2006,3 @@ module_exit(fast_classifier_exit)
 
 MODULE_DESCRIPTION("Shortcut Forwarding Engine - Connection Manager");
 MODULE_LICENSE("Dual BSD/GPL");
-

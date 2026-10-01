@@ -22,6 +22,9 @@ platform_do_upgrade() {
 	qcom,ipq8064-ap161)
 		nand_do_upgrade "$1"
 		;;
+	linksys,e8350-v1)
+		nand_do_upgrade "$1"
+		;;
 	asrock,g10)
 		asrock_upgrade_prepare
 		nand_do_upgrade "$1"

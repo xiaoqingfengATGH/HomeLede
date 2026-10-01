@@ -1,0 +1,28 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: coolsnowwolf <coolsnowwolf@gmail.com>
+Date: Tue, 8 Sep 2026 11:01:00 +0800
+Subject: [PATCH] kernel: make UDP tunnel support selectable
+
+NET_UDP_TUNNEL has no prompt and therefore cannot be enabled directly by
+the kmod-udptunnel packages. This leaves external modules such as ovpn-dco
+without the UDP tunnel exports on otherwise minimal configurations.
+
+Make the option user-selectable, matching the existing Linux 6.12 and
+6.18 compatibility patches.
+
+Signed-off-by: coolsnowwolf <coolsnowwolf@gmail.com>
+---
+ net/ipv4/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/net/ipv4/Kconfig
++++ b/net/ipv4/Kconfig
+@@ -315,7 +315,7 @@
+ 	  on top.
+ 
+ config NET_UDP_TUNNEL
+-	tristate
++	tristate "IP: UDP tunneling support"
+ 	select NET_IP_TUNNEL
+ 	default n
+ 

@@ -6,6 +6,9 @@
 blkdev=`dirname $DEVPATH`
 basename=`basename $blkdev`
 device=`basename $DEVPATH`
+
+grep -qs "^/dev/$device " /proc/mounts && exit 0
+
 skip=`block info | grep -vE '(f2fs|kernel|squashfs)' | sed 's/\(.*\): .*/\1/' | grep -q $device ; echo $?`
 path=$DEVPATH
 

@@ -1,0 +1,35 @@
+From 59edf9a3427c13f05d450fe84f42ef00dc7096c9 Mon Sep 17 00:00:00 2001
+From: Junhui Liu <junhui.liu@pigmoral.tech>
+Date: Tue, 19 May 2026 20:58:32 +0800
+Subject: [PATCH] configs: radxa-cubie-a5e: enable the gmac1 controller
+
+The Allwinner A527 SoC features two Ethernet controllers utilizing
+different IP blocks. While gmac0 uses the older sun8i-emac IP, gmac1 is
+based on the Synopsys DesignWare Ethernet QOS IP.
+
+This enables the DWC_ETH_QOS_SUNXI driver and the required PHY interface
+configurations in the defconfig for the Radxa Cubie A5E board,
+activating the gmac1 port.
+
+Signed-off-by: Junhui Liu <junhui.liu@pigmoral.tech>
+[Andre: drop unneeded options]
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Tested-by: Andre Przywara <andre.przywara@arm.com>
+---
+ configs/radxa-cubie-a5e_defconfig | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+--- a/configs/radxa-cubie-a5e_defconfig
++++ b/configs/radxa-cubie-a5e_defconfig
+@@ -23,6 +23,11 @@ CONFIG_SYS_I2C_SLAVE=0x7f
+ CONFIG_SYS_I2C_SPEED=400000
+ CONFIG_SUPPORT_EMMC_BOOT=y
+ CONFIG_PHY_REALTEK=y
++CONFIG_DM_MDIO=y
++CONFIG_DM_ETH_PHY=y
++CONFIG_DWC_ETH_QOS=y
++CONFIG_DWC_ETH_QOS_SUNXI=y
++CONFIG_RGMII=y
+ CONFIG_SUN8I_EMAC=y
+ CONFIG_REGULATOR_AXP=y
+ CONFIG_AXP717_POWER=y

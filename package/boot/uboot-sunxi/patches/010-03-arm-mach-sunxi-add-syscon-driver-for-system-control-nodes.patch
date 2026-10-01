@@ -1,0 +1,80 @@
+From d2a46d3eb2c337b81084300e8931a9c42b76c0fc Mon Sep 17 00:00:00 2001
+From: Junhui Liu <junhui.liu@pigmoral.tech>
+Date: Tue, 19 May 2026 20:58:29 +0800
+Subject: [PATCH] arm: mach-sunxi: add syscon driver for system-control nodes
+
+The upstream Linux kernel relies on the sunxi_sram driver to bind the
+system-control nodes as syscon devices. Since U-Boot lacks this SRAM
+driver, peripheral drivers may fail to resolve the syscon node unless an
+explicit "syscon" compatible is added into the device tree.
+
+To address this, add a bare UCLASS_SYSCON driver that matches all
+Allwinner system-control and SRAM controller compatibles listed in the
+Linux kernel to provide the necessary regmap access to the system
+controller.
+
+Signed-off-by: Junhui Liu <junhui.liu@pigmoral.tech>
+---
+ arch/arm/mach-sunxi/Kconfig  |  7 +++++++
+ arch/arm/mach-sunxi/Makefile |  1 +
+ arch/arm/mach-sunxi/syscon.c | 28 ++++++++++++++++++++++++++++
+ 3 files changed, 36 insertions(+)
+ create mode 100644 arch/arm/mach-sunxi/syscon.c
+
+--- a/arch/arm/mach-sunxi/Kconfig
++++ b/arch/arm/mach-sunxi/Kconfig
+@@ -203,6 +203,13 @@ config SUN6I_PRCM
+ 	  Support for the PRCM (Power/Reset/Clock Management) unit available
+ 	  in A31 SoC.
+ 
++config SUNXI_SYSCON
++	bool
++	select SYSCON
++	help
++	  Enable syscon driver for Allwinner system controllers, which provides
++	  access to the SRAM/system-control node for drivers.
++
+ config AXP_PMIC_BUS
+ 	bool
+ 	select DM_PMIC if DM_I2C
+--- a/arch/arm/mach-sunxi/Makefile
++++ b/arch/arm/mach-sunxi/Makefile
+@@ -10,6 +10,7 @@ obj-y	+= board.o
+ obj-y	+= cpu_info.o
+ obj-y	+= dram_helpers.o
+ obj-$(CONFIG_SUN6I_PRCM)	+= prcm.o
++obj-$(CONFIG_SUNXI_SYSCON)	+= syscon.o
+ obj-$(CONFIG_AXP_PMIC_BUS)	+= pmic_bus.o
+ obj-$(CONFIG_MACH_SUNIV)	+= clock_sun6i.o
+ obj-$(CONFIG_MACH_SUN4I)	+= clock_sun4i.o
+--- /dev/null
++++ b/arch/arm/mach-sunxi/syscon.c
+@@ -0,0 +1,28 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Copyright (C) 2026 Junhui Liu <junhui.liu@pigmoral.tech>
++ */
++
++#include <dm.h>
++#include <syscon.h>
++
++static const struct udevice_id sunxi_syscon_ids[] = {
++	{ .compatible = "allwinner,sun4i-a10-sram-controller" },
++	{ .compatible = "allwinner,sun4i-a10-system-control" },
++	{ .compatible = "allwinner,sun5i-a13-system-control" },
++	{ .compatible = "allwinner,sun8i-a23-system-control" },
++	{ .compatible = "allwinner,sun8i-h3-system-control" },
++	{ .compatible = "allwinner,sun20i-d1-system-control" },
++	{ .compatible = "allwinner,sun50i-a64-sram-controller" },
++	{ .compatible = "allwinner,sun50i-a64-system-control" },
++	{ .compatible = "allwinner,sun50i-h5-system-control" },
++	{ .compatible = "allwinner,sun50i-h616-system-control" },
++	{ .compatible = "allwinner,sun55i-a523-system-control" },
++	{ /* sentinel */ },
++};
++
++U_BOOT_DRIVER(sunxi_syscon) = {
++	.name = "sunxi_syscon",
++	.id = UCLASS_SYSCON,
++	.of_match = sunxi_syscon_ids,
++};

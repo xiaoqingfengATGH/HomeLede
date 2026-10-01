@@ -1,0 +1,56 @@
+From: coolsnowwolf <coolsnowwolf@gmail.com>
+Date: Sun, 7 Sep 2026 15:10:00 +0800
+Subject: [PATCH] arm64: dts: rockchip: add missing RK3588 board dependencies
+
+Newer RK3588 board descriptions reference the HDMI0 sound card and the
+GPU and NPU power domains by label. Backport the missing definitions from
+upstream commits b8c6c136971c, f94500eb7328 and 6d64bceb97a1.
+
+Signed-off-by: coolsnowwolf <coolsnowwolf@gmail.com>
+---
+ arch/arm64/boot/dts/rockchip/rk3588-base.dtsi | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
+
+--- a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
+@@ -374,6 +374,22 @@
+ 		};
+ 	};
+ 
++	hdmi0_sound: hdmi0-sound {
++		compatible = "simple-audio-card";
++		simple-audio-card,format = "i2s";
++		simple-audio-card,mclk-fs = <128>;
++		simple-audio-card,name = "hdmi0";
++		status = "disabled";
++
++		simple-audio-card,codec {
++			sound-dai = <&hdmi0>;
++		};
++
++		simple-audio-card,cpu {
++			sound-dai = <&i2s5_8ch>;
++		};
++	};
++
+ 	pmu-a55 {
+ 		compatible = "arm,cortex-a55-pmu";
+ 		interrupts = <GIC_PPI 7 IRQ_TYPE_LEVEL_HIGH &ppi_partition0>;
+@@ -826,7 +842,7 @@
+ 			status = "okay";
+ 
+ 			/* These power domains are grouped by VD_NPU */
+-			power-domain@RK3588_PD_NPU {
++			pd_npu: power-domain@RK3588_PD_NPU {
+ 				reg = <RK3588_PD_NPU>;
+ 				#power-domain-cells = <0>;
+ 				#address-cells = <1>;
+@@ -864,7 +880,7 @@
+ 				};
+ 			};
+ 			/* These power domains are grouped by VD_GPU */
+-			power-domain@RK3588_PD_GPU {
++			pd_gpu: power-domain@RK3588_PD_GPU {
+ 				reg = <RK3588_PD_GPU>;
+ 				clocks = <&cru CLK_GPU>,
+ 					 <&cru CLK_GPU_COREGROUP>,

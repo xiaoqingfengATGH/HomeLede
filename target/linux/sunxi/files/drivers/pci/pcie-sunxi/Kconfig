@@ -1,0 +1,26 @@
+# SPDX-License-Identifier: GPL-2.0-only
+
+menu "PCIe Drivers"
+	depends on ARCH_SUNXI
+
+choice
+	prompt "Allwinner PCIe controller"
+	default  PCIE_SUN55I_NONE
+
+config PCIE_SUN55I_RC
+	bool "Sun55i RC controller - Host mode"
+	depends on ARCH_SUNXI
+	help
+	  Enables support for the PCIe RC controller in the Allwinner Sun55i SoC.
+
+config PCIE_SUN55I_NONE
+	bool "None"
+	depends on ARCH_SUNXI
+	help
+	  Disable support for the PCIe controller in the Allwinner Sun55i SoC.
+
+endchoice
+
+endmenu
+
+ccflags-y += -Idrivers/pci/pcie-sunxi/include

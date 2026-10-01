@@ -1,0 +1,25 @@
+From 0874f96a2e42dd3e729f4f1432f51fc170b4773f Mon Sep 17 00:00:00 2001
+From: Junhui Liu <junhui.liu@pigmoral.tech>
+Date: Tue, 19 May 2026 20:58:31 +0800
+Subject: [PATCH] clk: sunxi: a523: add MBUS_EMAC1 clock gate
+
+The Allwinner sun55i (A523/A527/T527) platform requires the MBUS clock
+gate enabled for the gmac1 controller to function. Add the clock gate
+definition for CLK_MBUS_EMAC1.
+
+Signed-off-by: Junhui Liu <junhui.liu@pigmoral.tech>
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+---
+ drivers/clk/sunxi/clk_a523.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+--- a/drivers/clk/sunxi/clk_a523.c
++++ b/drivers/clk/sunxi/clk_a523.c
+@@ -16,6 +16,7 @@ static struct ccu_clk_gate a523_gates[]
+ 	[CLK_PLL_PERIPH0_200M]	= GATE_DUMMY,
+ 	[CLK_APB1]		= GATE_DUMMY,
+ 
++	[CLK_MBUS_EMAC1]	= GATE(0x804, BIT(12)),
+ 	[CLK_BUS_MMC0]		= GATE(0x84c, BIT(0)),
+ 	[CLK_BUS_MMC1]		= GATE(0x84c, BIT(1)),
+ 	[CLK_BUS_MMC2]		= GATE(0x84c, BIT(2)),

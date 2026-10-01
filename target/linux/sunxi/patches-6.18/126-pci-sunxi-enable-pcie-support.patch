@@ -1,0 +1,37 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Marvin Wewer <mwewer37@proton.me>
+Date: Sun, 14 Dec 2025 11:07:45 +0000
+Subject: pci: sunxi: add sun55i PCIe RC and DMA support
+
+Signed-off-by: Marvin Wewer <mwewer37@proton.me>
+---
+ drivers/pci/Kconfig                      |    1 +
+ drivers/pci/Makefile                     |    1 +
+ drivers/pci/pcie-sunxi/Kconfig           |   26 +
+ drivers/pci/pcie-sunxi/Makefile          |    8 +
+ drivers/pci/pcie-sunxi/pcie-sunxi-dma.c  |  198 ++
+ drivers/pci/pcie-sunxi/pcie-sunxi-dma.h  |  279 +++
+ drivers/pci/pcie-sunxi/pcie-sunxi-plat.c | 1233 ++++++++++
+ drivers/pci/pcie-sunxi/pcie-sunxi-rc.c   |  854 +++++++
+ drivers/pci/pcie-sunxi/pcie-sunxi.h      |  391 +++
+ include/sunxi-gpio.h                     |  188 ++
+ 10 files changed, 3179 insertions(+)
+
+--- a/drivers/pci/Kconfig
++++ b/drivers/pci/Kconfig
+@@ -328,5 +328,6 @@ source "drivers/pci/controller/Kconfig"
+ source "drivers/pci/endpoint/Kconfig"
+ source "drivers/pci/switch/Kconfig"
+ source "drivers/pci/pwrctrl/Kconfig"
++source "drivers/pci/pcie-sunxi/Kconfig"
+ 
+ endif
+--- a/drivers/pci/Makefile
++++ b/drivers/pci/Makefile
+@@ -43,5 +43,6 @@ obj-$(CONFIG_PCI_ENDPOINT)	+= endpoint/
+ 
+ obj-y				+= controller/
+ obj-y				+= switch/
++obj-y				+= pcie-sunxi/
+ 
+ subdir-ccflags-$(CONFIG_PCI_DEBUG) := -DDEBUG

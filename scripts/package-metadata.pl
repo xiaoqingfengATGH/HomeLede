@@ -160,6 +160,8 @@ sub mconf_depends {
 		$depend =~ s/^([@\+]+)// and $flags = $1;
 		my $condition = $parent_condition;
 
+		$depend = $2 if	$depend =~ /^(.+):(.+)$/ and $dep->{$1} eq 'select';
+
 		next if $condition eq $depend;
 		next if $seen->{"$parent_condition:$depend"};
 		next if $seen->{":$depend"};
@@ -232,7 +234,7 @@ sub mconf_depends {
 		mconf_depends($pkgname, $tdep->[0], 1, $dep, $seen, $tdep->[1]);
 	}
 
-	foreach my $depend (keys %$dep) {
+	foreach my $depend (sort keys %$dep) {
 		my $m = $dep->{$depend};
 		$res .= "\t\t$m $depend\n";
 	}
@@ -246,6 +248,10 @@ sub mconf_conflicts {
 
 	foreach my $depend (@$depends) {
 		next unless $package{$depend};
+		my $reverse = $package{$depend}->{conflicts};
+		# One Kconfig edge is enough for a reciprocal package conflict.
+		next if $reverse && $pkgname gt $depend &&
+			grep { $_ eq $pkgname } @$reverse;
 		$res .= "\t\tdepends on m || (PACKAGE_$depend != y)\n";
 	}
 	return $res;

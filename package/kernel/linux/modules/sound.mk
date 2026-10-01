@@ -404,11 +404,31 @@ define KernelPackage/sound-hda-codec-realtek
   SUBMENU:=$(SOUND_MENU)
   TITLE:= HD Audio Realtek Codec
   KCONFIG:= \
-	CONFIG_SND_HDA_CODEC_REALTEK
+	CONFIG_SND_HDA_CODEC_REALTEK \
+	CONFIG_SND_HDA_CODEC_ALC260=m \
+	CONFIG_SND_HDA_CODEC_ALC262=m \
+	CONFIG_SND_HDA_CODEC_ALC268=m \
+	CONFIG_SND_HDA_CODEC_ALC269=m \
+	CONFIG_SND_HDA_CODEC_ALC662=m \
+	CONFIG_SND_HDA_CODEC_ALC680=m \
+	CONFIG_SND_HDA_CODEC_ALC861=m \
+	CONFIG_SND_HDA_CODEC_ALC861VD=m \
+	CONFIG_SND_HDA_CODEC_ALC880=m \
+	CONFIG_SND_HDA_CODEC_ALC882=m
   FILES:= \
 	$(LINUX_DIR)/sound/pci/hda/snd-hda-codec-realtek.ko@lt6.18 \
-	$(LINUX_DIR)/sound/hda/codecs/realtek/snd-hda-codec-realtek-lib.ko@ge6.18
-  AUTOLOAD:=$(call AutoProbe,snd-hda-codec-realtek LINUX_6_18:snd-hda-codec-realtek-lib)
+	$(LINUX_DIR)/sound/hda/codecs/realtek/snd-hda-codec-realtek-lib.ko@ge6.18 \
+	$(LINUX_DIR)/sound/hda/codecs/realtek/snd-hda-codec-alc260.ko@ge6.18 \
+	$(LINUX_DIR)/sound/hda/codecs/realtek/snd-hda-codec-alc262.ko@ge6.18 \
+	$(LINUX_DIR)/sound/hda/codecs/realtek/snd-hda-codec-alc268.ko@ge6.18 \
+	$(LINUX_DIR)/sound/hda/codecs/realtek/snd-hda-codec-alc269.ko@ge6.18 \
+	$(LINUX_DIR)/sound/hda/codecs/realtek/snd-hda-codec-alc662.ko@ge6.18 \
+	$(LINUX_DIR)/sound/hda/codecs/realtek/snd-hda-codec-alc680.ko@ge6.18 \
+	$(LINUX_DIR)/sound/hda/codecs/realtek/snd-hda-codec-alc861.ko@ge6.18 \
+	$(LINUX_DIR)/sound/hda/codecs/realtek/snd-hda-codec-alc861vd.ko@ge6.18 \
+	$(LINUX_DIR)/sound/hda/codecs/realtek/snd-hda-codec-alc880.ko@ge6.18 \
+	$(LINUX_DIR)/sound/hda/codecs/realtek/snd-hda-codec-alc882.ko@ge6.18
+  AUTOLOAD:=$(call AutoProbe,snd-hda-codec-realtek LINUX_6_18:snd-hda-codec-realtek-lib LINUX_6_18:snd-hda-codec-alc260 LINUX_6_18:snd-hda-codec-alc262 LINUX_6_18:snd-hda-codec-alc268 LINUX_6_18:snd-hda-codec-alc269 LINUX_6_18:snd-hda-codec-alc662 LINUX_6_18:snd-hda-codec-alc680 LINUX_6_18:snd-hda-codec-alc861 LINUX_6_18:snd-hda-codec-alc861vd LINUX_6_18:snd-hda-codec-alc880 LINUX_6_18:snd-hda-codec-alc882)
   $(call AddDepends/sound,kmod-sound-hda-core +kmod-snd-hda-scodec-component)
 endef
 

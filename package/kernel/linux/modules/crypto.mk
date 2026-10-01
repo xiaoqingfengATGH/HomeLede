@@ -563,7 +563,9 @@ define KernelPackage/crypto-lib-chacha20/x86_64
   FILES+=$(LINUX_DIR)/arch/x86/crypto/chacha-x86_64.ko
 endef
 endif
+endif
 
+ifeq ($(KERNEL_PATCHVER),6.12)
 # Note that a non-neon fallback implementation is available on arm32 when
 # NEON is not supported, hence all arm targets can utilize lib-chacha20/arm
 define KernelPackage/crypto-lib-chacha20/arm
@@ -588,10 +590,11 @@ ifeq ($(CONFIG_CPU_MIPS32_R2),y)
 	  $(KernelPackage/crypto-lib-chacha20/mips32r2)
 endif
 
+endif
+
 ifdef KernelPackage/crypto-lib-chacha20/$(ARCH)
   KernelPackage/crypto-lib-chacha20/$(CRYPTO_TARGET)=\
 	  $(KernelPackage/crypto-lib-chacha20/$(ARCH))
-endif
 endif
 
 $(eval $(call KernelPackage,crypto-lib-chacha20))
@@ -625,7 +628,9 @@ define KernelPackage/crypto-lib-curve25519/x86_64
   FILES+=$(LINUX_DIR)/arch/x86/crypto/curve25519-x86_64.ko
 endef
 endif
+endif
 
+ifeq ($(KERNEL_PATCHVER),6.12)
 define KernelPackage/crypto-lib-curve25519/arm-neon
   KCONFIG+=CONFIG_CRYPTO_CURVE25519_NEON
   FILES+=$(LINUX_DIR)/arch/arm/crypto/curve25519-neon.ko
@@ -636,10 +641,11 @@ ifeq ($(ARCH)-$(CONFIG_KERNEL_MODE_NEON),arm-y)
 	  $(KernelPackage/crypto-lib-curve25519/arm-neon)
 endif
 
+endif
+
 ifdef KernelPackage/crypto-lib-curve25519/$(ARCH)
   KernelPackage/crypto-lib-curve25519/$(CRYPTO_TARGET)=\
 	  $(KernelPackage/crypto-lib-curve25519/$(ARCH))
-endif
 endif
 
 $(eval $(call KernelPackage,crypto-lib-curve25519))
@@ -660,7 +666,9 @@ define KernelPackage/crypto-lib-poly1305/x86_64
   FILES+=$(LINUX_DIR)/arch/x86/crypto/poly1305-x86_64.ko
 endef
 endif
+endif
 
+ifeq ($(KERNEL_PATCHVER),6.12)
 define KernelPackage/crypto-lib-poly1305/arm
   KCONFIG+=CONFIG_CRYPTO_POLY1305_ARM
   FILES:=$(LINUX_DIR)/arch/arm/crypto/poly1305-arm.ko
@@ -682,10 +690,11 @@ KernelPackage/crypto-lib-poly1305/mipsel=$(KernelPackage/crypto-lib-poly1305/mip
 KernelPackage/crypto-lib-poly1305/mips64=$(KernelPackage/crypto-lib-poly1305/mips)
 KernelPackage/crypto-lib-poly1305/mips64el=$(KernelPackage/crypto-lib-poly1305/mips)
 
+endif
+
 ifdef KernelPackage/crypto-lib-poly1305/$(ARCH)
   KernelPackage/crypto-lib-poly1305/$(CRYPTO_TARGET)=\
 	  $(KernelPackage/crypto-lib-poly1305/$(ARCH))
-endif
 endif
 
 $(eval $(call KernelPackage,crypto-lib-poly1305))
@@ -975,7 +984,7 @@ define KernelPackage/crypto-sha1
   $(call AddDepends/crypto)
 endef
 
-ifneq ($(KERNEL_PATCHVER),6.18)
+ifeq ($(KERNEL_PATCHVER),6.12)
 define KernelPackage/crypto-sha1/arm
   FILES+=$(LINUX_DIR)/arch/arm/crypto/sha1-arm.ko
   AUTOLOAD+=$(call AutoLoad,09,sha1-arm)
@@ -1061,7 +1070,7 @@ define KernelPackage/crypto-sha256
   $(call AddDepends/crypto)
 endef
 
-ifneq ($(KERNEL_PATCHVER),6.18)
+ifeq ($(KERNEL_PATCHVER),6.12)
 define KernelPackage/crypto-sha256/aarch64
   FILES+=$(LINUX_DIR)/arch/arm64/crypto/sha256-arm64.ko
   AUTOLOAD+=$(call AutoLoad,09,sha256-arm64)
@@ -1122,7 +1131,7 @@ define KernelPackage/crypto-sha512
   $(call AddDepends/crypto)
 endef
 
-ifneq ($(KERNEL_PATCHVER),6.18)
+ifeq ($(KERNEL_PATCHVER),6.12)
 define KernelPackage/crypto-sha512/arm
   FILES+=$(LINUX_DIR)/arch/arm/crypto/sha512-arm.ko
   AUTOLOAD+=$(call AutoLoad,09,sha512-arm)
@@ -1217,4 +1226,3 @@ define KernelPackage/crypto-xxhash
 endef
 
 $(eval $(call KernelPackage,crypto-xxhash))
-

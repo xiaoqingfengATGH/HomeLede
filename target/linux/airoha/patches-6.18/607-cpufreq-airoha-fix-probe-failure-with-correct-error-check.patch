@@ -18,7 +18,7 @@ Signed-off-by: Daniel Schwierzeck <daniel.schwierzeck@gmail.com>
 
 --- a/drivers/cpufreq/airoha-cpufreq.c
 +++ b/drivers/cpufreq/airoha-cpufreq.c
-@@ -64,7 +64,7 @@ static int airoha_cpufreq_probe(struct p
+@@ -65,7 +65,7 @@ static int airoha_cpufreq_probe(struct p
  	/* Attach PM for OPP */
  	ret = dev_pm_domain_attach_list(cpu_dev, &attach_data,
  					&priv->pd_list);
