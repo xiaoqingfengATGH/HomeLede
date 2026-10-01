@@ -11,7 +11,7 @@
 +++ b/modules/fts
 @@ -2,6 +2,7 @@ Description:
  Traverse a file hierarchy.
- 
+
  Files:
 +lib/fts.h
  lib/fts_.h

@@ -8,18 +8,9 @@ USXGMII, 10GBase-R and 5GBase-R interface modes.
 
 Signed-off-by: Daniel Golle <daniel@makrotopia.org>
 ---
- MAINTAINERS                         |   2 +
- drivers/net/pcs/Kconfig             |  11 +
- drivers/net/pcs/Makefile            |   1 +
- drivers/net/pcs/pcs-mtk-usxgmii.c   | 456 ++++++++++++++++++++++++++++
- include/linux/pcs/pcs-mtk-usxgmii.h |  27 ++
- 5 files changed, 497 insertions(+)
- create mode 100644 drivers/net/pcs/pcs-mtk-usxgmii.c
- create mode 100644 include/linux/pcs/pcs-mtk-usxgmii.h
-
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -14430,7 +14430,9 @@ M:	Daniel Golle <daniel@makrotopia.org>
+@@ -14431,7 +14431,9 @@ M:	Daniel Golle <daniel@makrotopia.org>
  L:	netdev@vger.kernel.org
  S:	Maintained
  F:	drivers/net/pcs/pcs-mtk-lynxi.c

@@ -11,17 +11,17 @@ include $(INCLUDE_DIR)/kernel.mk
 PKG_NAME:=mac80211
 
 ifneq ($(filter y,$(CONFIG_LINUX_6_12) $(CONFIG_LINUX_6_18)),)
-PKG_VERSION:=6.18.7
-PKG_HASH:=623e5cf46ca8e81fd413f4f465e2580a0143e24929f9c22ce1ba7c34f2872989
+PKG_VERSION:=6.18.39
+PKG_HASH:=8951c1e270d7c311432377bd50951cd1d5dee2b5fedf33d30db41aa8e428aeb0
 PKG_SOURCE_URL:=https://github.com/openwrt/backports/releases/download/backports-v$(PKG_VERSION)
 PKG_SOURCE:=backports-$(PKG_VERSION).tar.zst
-PATCH_DIR:=./patches-6.18
+PATCH_DIR:=./patches
 else
 PKG_VERSION:=6.6.15
 PKG_HASH:=3bbc461121134fda9089c084a5eed577d05e7837a157edf9a3797937172a3ece
 PKG_SOURCE_URL:=http://mirror2.openwrt.org/sources/
 PKG_SOURCE:=backports-$(PKG_VERSION).tar.xz
-PATCH_DIR:=./patches
+PATCH_DIR:=./patchs
 endif
 
 PKG_RELEASE:=3
@@ -207,7 +207,7 @@ endef
 define KernelPackage/mac80211-hwsim
   $(call KernelPackage/mac80211/Default)
   TITLE:=mac80211 HW simulation device
-  DEPENDS+= +kmod-mac80211 +@DRIVER_11AX_SUPPORT +@DRIVER_11AC_SUPPORT
+  DEPENDS+= +kmod-mac80211 +@DRIVER_11BE_SUPPORT +@DRIVER_11AX_SUPPORT +@DRIVER_11AC_SUPPORT
   FILES:=$(PKG_BUILD_DIR)/drivers/net/wireless/virtual/mac80211_hwsim.ko
   AUTOLOAD:=$(call AutoProbe,mac80211_hwsim)
 endef
@@ -224,7 +224,7 @@ endef
 define KernelPackage/rsi91x
   $(call KernelPackage/mac80211/Default)
   TITLE:=Redpine Signals Inc 91x WLAN driver support
-  DEPENDS+= +kmod-mac80211 +rs9113-firmware +@DRIVER_11N_SUPPORT
+  DEPENDS+= +kmod-mac80211 +rs9113-firmware
   FILES:=$(PKG_BUILD_DIR)/drivers/net/wireless/rsi/rsi_91x.ko
 endef
 
@@ -248,7 +248,7 @@ endef
 define KernelPackage/wlcore
   $(call KernelPackage/mac80211/Default)
   TITLE:=TI common driver part
-  DEPENDS+= +kmod-mmc +kmod-mac80211 +@DRIVER_11N_SUPPORT
+  DEPENDS+= +kmod-mmc +kmod-mac80211
   FILES:= \
 	$(PKG_BUILD_DIR)/drivers/net/wireless/ti/wlcore/wlcore.ko \
 	$(PKG_BUILD_DIR)/drivers/net/wireless/ti/wlcore/wlcore_sdio.ko
@@ -396,9 +396,9 @@ define Build/Patch
 	$(call PatchDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/brcm,brcm/)
 	$(call PatchDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/rtl,rtl/)
 ifdef CONFIG_ATH11K_NSS_SUPPORT
-	$(call PatchDir,$(PKG_BUILD_DIR),./patches/nss/subsys,nss/subsys/)
-	$(call PatchDir,$(PKG_BUILD_DIR),./patches/nss/ath10k,nss/ath10k/)
-	$(call PatchDir,$(PKG_BUILD_DIR),./patches/nss/ath11k,nss/ath11k/)
+	$(call PatchDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/nss/subsys,nss/subsys/)
+	$(call PatchDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/nss/ath10k,nss/ath10k/)
+	$(call PatchDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/nss/ath11k,nss/ath11k/)
 endif
 	$(if $(QUILT),touch $(PKG_BUILD_DIR)/.quilt_used)
 endef
@@ -418,9 +418,9 @@ define Quilt/Refresh/Package
 	$(call Quilt/RefreshDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/brcm,brcm/)
 	$(call Quilt/RefreshDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/rtl,rtl/)
 ifdef CONFIG_ATH11K_NSS_SUPPORT
-	$(call Quilt/RefreshDir,$(PKG_BUILD_DIR),./patches/nss/subsys,nss/subsys/)
-	$(call Quilt/RefreshDir,$(PKG_BUILD_DIR),./patches/nss/ath10k,nss/ath10k/)
-	$(call Quilt/RefreshDir,$(PKG_BUILD_DIR),./patches/nss/ath11k,nss/ath11k/)
+	$(call Quilt/RefreshDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/nss/subsys,nss/subsys/)
+	$(call Quilt/RefreshDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/nss/ath10k,nss/ath10k/)
+	$(call Quilt/RefreshDir,$(PKG_BUILD_DIR),$(PATCH_DIR)/nss/ath11k,nss/ath11k/)
 endif
 endef
 

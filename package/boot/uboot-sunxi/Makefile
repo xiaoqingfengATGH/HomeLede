@@ -404,8 +404,53 @@ define U-Boot/bananapi_p2_zero
   BUILD_DEVICES:=sinovoip_bpi-p2-zero
 endef
 
+define U-Boot/mangopi_mqdual_t113
+  BUILD_SUBTARGET:=cortexa7
+  NAME:=MangoPi MQDual (T113)
+  BUILD_DEVICES:=widora_mangopi-mqdual-t113
+endef
+
+define U-Boot/myir_myd_t113x-emmc
+  BUILD_SUBTARGET:=cortexa7
+  NAME:=MYIR MYD-T113X eMMC
+  BUILD_DEVICES:=myir_myd-yt113x-emmc
+  UENV:=t113.ttyS5
+endef
+
+define U-Boot/myir_myd_t113x-spi
+  BUILD_SUBTARGET:=cortexa7
+  NAME:=MYIR MYD-T113X SPI
+  BUILD_DEVICES:=myir_myd-yt113x-spi
+  UENV:=t113.ttyS5
+endef
+
+define U-Boot/olimex_olinuxino
+  BUILD_SUBTARGET:=cortexa7
+  NAME:=Olimex Olinuxino T113
+  BUILD_DEVICES:=olimex_olinuxino
+endef
+
+define U-Boot/rongpin_rp_t113
+  BUILD_SUBTARGET:=cortexa7
+  NAME:=Rongpin RP-T113
+  BUILD_DEVICES:=rongpin_rp-t113
+  UENV:=t113.ttyS3
+endef
+
+define U-Boot/radxa-cubie-a5e
+  BUILD_SUBTARGET:=cortexa53
+  NAME:=Radxa Cubie A5E
+  BUILD_DEVICES:=radxa_cubie-a5e
+  DEPENDS:=+PACKAGE_u-boot-radxa-cubie-a5e:trusted-firmware-a-sunxi-a523
+  UENV:=a523
+  ATF:=a523
+endef
 
 UBOOT_TARGETS := \
+	mangopi_mqdual_t113 \
+	myir_myd_t113x-emmc \
+	myir_myd_t113x-spi \
+	rongpin_rp_t113 \
 	a64-olinuxino \
 	a64-olinuxino-emmc \
 	A10-OLinuXino-Lime \
@@ -442,6 +487,7 @@ UBOOT_TARGETS := \
 	nanopi_neo2 \
 	nanopi_r1 \
 	nanopi_r1s_h5 \
+	olimex_olinuxino \
 	orangepi_zero \
 	orangepi_r1 \
 	orangepi_one \
@@ -461,7 +507,8 @@ UBOOT_TARGETS := \
 	Sinovoip_BPI_M3 \
 	sopine_baseboard \
 	orangepi_zero_plus \
-	libretech_all_h3_cc_h5
+	libretech_all_h3_cc_h5 \
+	radxa-cubie-a5e
 
 UBOOT_CONFIGURE_VARS += USE_PRIVATE_LIBGCC=yes
 

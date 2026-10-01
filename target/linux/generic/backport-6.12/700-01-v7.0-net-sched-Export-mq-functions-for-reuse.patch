@@ -19,15 +19,9 @@ Signed-off-by: Toke Høiland-Jørgensen <toke@redhat.com>
 Link: https://patch.msgid.link/20260109-mq-cake-sub-qdisc-v8-1-8d613fece5d8@redhat.com
 Signed-off-by: Paolo Abeni <pabeni@redhat.com>
 ---
- MAINTAINERS            |  1 +
- include/net/sch_priv.h | 27 ++++++++++++++++
- net/sched/sch_mq.c     | 71 +++++++++++++++++++++++++++++-------------
- 3 files changed, 77 insertions(+), 22 deletions(-)
- create mode 100644 include/net/sch_priv.h
-
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -22546,6 +22546,7 @@ L:	netdev@vger.kernel.org
+@@ -22547,6 +22547,7 @@ L:	netdev@vger.kernel.org
  S:	Maintained
  F:	include/net/pkt_cls.h
  F:	include/net/pkt_sched.h

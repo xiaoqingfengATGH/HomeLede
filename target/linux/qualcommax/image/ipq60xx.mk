@@ -1,7 +1,8 @@
+DTS_DIR := $(DTS_DIR)/qcom
+
 define Device/EmmcImage
 	IMAGES += factory.bin recovery.bin
-	IMAGE/factory.bin := append-kernel | pad-to 12288k | append-rootfs | append-metadata
-	IMAGE/recovery.bin := append-kernel | pad-to 6144k | append-rootfs | append-metadata
+	IMAGE/factory.bin := append-kernel | pad-to 6144k | append-rootfs | append-metadata
 	IMAGE/sysupgrade.bin/squashfs := append-rootfs | pad-to 64k | sysupgrade-tar rootfs=$$$$@ | append-metadata
 endef
 
@@ -30,6 +31,19 @@ define Device/cmiot_ax18
 	SOC := ipq6000
 endef
 TARGET_DEVICES += cmiot_ax18
+
+define Device/zn_m2
+	$(call Device/FitImage)
+	$(call Device/UbiFit)
+	DEVICE_VENDOR := ZN
+	DEVICE_MODEL := M2
+	DEVICE_DTS := ipq6018-m2
+	DEVICE_DTS_CONFIG := config@cp03-c1
+	BLOCKSIZE := 128k
+	PAGESIZE := 2048
+	SOC := ipq6018
+endef
+TARGET_DEVICES += zn_m2
 
 define Device/dptech_ap3000-2c
 	$(call Device/FitImage)
@@ -178,6 +192,7 @@ define Device/redmi_ax5-jdcloud
 	DEVICE_MODEL := AX5 JDCloud
 	DEVICE_DTS_CONFIG := config@cp03-c1
 	SOC := ipq6000
+	SUPPORTED_DEVICES += xiaomi,redmi-ax5-jdcloud
 	DEVICE_PACKAGES := ipq-wifi-redmi_ax5-jdcloud
 endef
 TARGET_DEVICES += redmi_ax5-jdcloud

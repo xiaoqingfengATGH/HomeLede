@@ -1,0 +1,33 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Marvin Wewer <mwewer37@proton.me>
+Date: Fri, 27 Jun 2025 12:40:09 +0200
+Subject: phy: allwinner: add INNO PCIe/USB3 combo PHY driver
+
+Signed-off-by: Marvin Wewer <mwewer37@proton.me>
+---
+ drivers/phy/allwinner/Kconfig               |    8 +
+ drivers/phy/allwinner/Makefile              |    1 +
+ drivers/phy/allwinner/sunxi-inno-combophy.c | 1193 ++++++++++
+ 3 files changed, 1202 insertions(+)
+
+--- a/drivers/phy/allwinner/Kconfig
++++ b/drivers/phy/allwinner/Kconfig
+@@ -57,3 +57,11 @@ config PHY_SUN50I_USB3
+ 	  part of Allwinner H6 SoC.
+ 
+ 	  This driver controls each individual USB 2+3 host PHY combo.
++
++config AW_INNO_COMBOPHY
++	tristate "Allwinner INNO COMBO PHY Driver"
++	depends on ARCH_SUNXI && OF
++	select GENERIC_PHY
++	help
++	  Enable this to support the Allwinner PCIe/USB3.0 combo PHY
++	  with INNOSILICON IP block.
+--- a/drivers/phy/allwinner/Makefile
++++ b/drivers/phy/allwinner/Makefile
+@@ -3,3 +3,4 @@ obj-$(CONFIG_PHY_SUN4I_USB)		+= phy-sun4
+ obj-$(CONFIG_PHY_SUN6I_MIPI_DPHY)	+= phy-sun6i-mipi-dphy.o
+ obj-$(CONFIG_PHY_SUN9I_USB)		+= phy-sun9i-usb.o
+ obj-$(CONFIG_PHY_SUN50I_USB3)		+= phy-sun50i-usb3.o
++obj-$(CONFIG_AW_INNO_COMBOPHY)		+= sunxi-inno-combophy.o

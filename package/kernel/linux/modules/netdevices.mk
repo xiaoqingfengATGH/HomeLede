@@ -666,6 +666,23 @@ endef
 
 $(eval $(call KernelPackage,dsa))
 
+define KernelPackage/dsa-yt921x
+  SUBMENU:=$(NETWORK_DEVICES_MENU)
+  TITLE:=Motorcomm YT921x Ethernet switch support
+  DEPENDS:=+kmod-dsa +kmod-mdio-devres +kmod-phylink
+  KCONFIG:=CONFIG_NET_DSA_YT921X
+  FILES:= \
+	$(LINUX_DIR)/drivers/net/dsa/yt921x.ko \
+	$(LINUX_DIR)/net/dsa/tag_yt921x.ko
+  AUTOLOAD:=$(call AutoLoad,19,tag_yt921x yt921x,1)
+endef
+
+define KernelPackage/dsa-yt921x/description
+  Kernel module support for Motorcomm YT9215/YT921x Ethernet switches
+endef
+
+$(eval $(call KernelPackage,dsa-yt921x))
+
 
 define KernelPackage/dsa-notag
   SUBMENU:=$(NETWORK_DEVICES_MENU)
@@ -2149,7 +2166,7 @@ $(eval $(call KernelPackage,pcs-qcom-ipq9574))
 define KernelPackage/pcs-xpcs
   SUBMENU:=$(NETWORK_DEVICES_MENU)
   TITLE:=Synopsis DesignWare PCS driver
-  DEPENDS:=@(TARGET_x86_64||TARGET_armsr) +kmod-phylink +LINUX_6_12||LINUX_6_18:kmod-mdio-devres
+  DEPENDS:=@(TARGET_x86_64||TARGET_armsr||TARGET_qcom) +kmod-phylink +LINUX_6_12||LINUX_6_18:kmod-mdio-devres
   KCONFIG:=CONFIG_PCS_XPCS
   FILES:=$(LINUX_DIR)/drivers/net/pcs/pcs_xpcs.ko
   AUTOLOAD:=$(call AutoLoad,20,pcs_xpcs)
@@ -2161,7 +2178,7 @@ $(eval $(call KernelPackage,pcs-xpcs))
 define KernelPackage/stmmac-core
   SUBMENU:=$(NETWORK_DEVICES_MENU)
   TITLE:=Synopsis Ethernet Controller core (NXP,STMMicro,others)
-  DEPENDS:=@TARGET_x86_64||TARGET_armsr +kmod-pcs-xpcs +kmod-ptp
+  DEPENDS:=@(TARGET_x86_64||TARGET_armsr||TARGET_qcom) +kmod-pcs-xpcs +kmod-ptp
   KCONFIG:=CONFIG_STMMAC_ETH \
     CONFIG_STMMAC_SELFTESTS=n \
     CONFIG_STMMAC_PLATFORM \

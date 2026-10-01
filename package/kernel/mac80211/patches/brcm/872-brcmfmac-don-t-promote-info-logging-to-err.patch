@@ -1,0 +1,29 @@
+From 87590538ae2cc0cd08cae181a9365327a6ea10c2 Mon Sep 17 00:00:00 2001
+From: coolsnowwolf <coolsnowwolf@gmail.com>
+Date: Sun, 6 Sep 2026 04:00:00 +0800
+Subject: [PATCH] brcmfmac: don't promote INFO logging to ERR
+
+Avoid turning informational brcmfmac messages into alarming error logs
+when tracing is enabled. This includes harmless unknown P2P action frames.
+
+Signed-off-by: coolsnowwolf <coolsnowwolf@gmail.com>
+---
+ drivers/net/wireless/broadcom/brcm80211/brcmfmac/debug.h | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+--- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/debug.h
++++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/debug.h
+@@ -68,7 +68,12 @@
+ #if defined(DEBUG) || defined(CPTCFG_BRCM_TRACING)
+ 
+ /* For debug/tracing purposes treat info messages as errors */
+-#define brcmf_info brcmf_err
++/* #define brcmf_info brcmf_err */
++
++#define brcmf_info(fmt, ...)\
++\tdo {\
++\t\tpr_info("%s: " fmt, __func__, ##__VA_ARGS__);\
++\t} while (0)
+ 
+ __printf(3, 4)
+ void __brcmf_dbg(u32 level, const char *func, const char *fmt, ...);

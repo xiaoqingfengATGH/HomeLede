@@ -19,7 +19,7 @@
  
 --- a/fs/ext4/file.c
 +++ b/fs/ext4/file.c
-@@ -296,7 +296,9 @@ static ssize_t ext4_buffered_write_iter(
+@@ -303,7 +303,9 @@ static ssize_t ext4_buffered_write_iter(
  	if (ret <= 0)
  		goto out;
  
