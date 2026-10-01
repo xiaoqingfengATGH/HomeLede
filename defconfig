@@ -8019,3 +8019,10 @@ CONFIG_PACKAGE_watchcat=y
 # CONFIG_PACKAGE_fontconfig is not set
 # end of Font-Utils
 # end of Xorg
+CONFIG_PACKAGE_strongswan=y
+CONFIG_PACKAGE_strongswan-default=y
+CONFIG_PACKAGE_strongswan-mod-eap-identity=y
+CONFIG_PACKAGE_strongswan-mod-eap-mschapv2=y
+CONFIG_PACKAGE_strongswan-mod-dhcp=y
+CONFIG_PACKAGE_strongswan-mod-farp=y
+CONFIG_PACKAGE_strongswan-libtls=y
