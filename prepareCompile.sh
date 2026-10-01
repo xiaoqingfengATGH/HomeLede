@@ -1,53 +1,23 @@
 #/bin/sh
-
-disablePkgsList="
-./feeds/packages/net/mosdns 
-./feeds/packages/net/adguardhome 
-./feeds/packages/net/dnscrypt-proxy2 
-./feeds/packages/net/smartdns 
-./feeds/packages/net/pdnsd-alt 
-./feeds/packages/net/microsocks 
-./feeds/packages/net/dns2socks 
-./feeds/packages/net/softethervpn5 
-./feeds/luci/applications/luci-app-sqm 
-./feeds/luci/applications/luci-app-nft-qos 
-./feeds/luci/applications/luci-app-kodexplorer 
-./feeds/luci/applications/luci-app-ipsec-server 
-./feeds/luci/applications/luci-app-serverchan 
-./feeds/luci/applications/luci-app-pptp-server 
-./feeds/luci/applications/luci-app-pppoe-relay 
-./feeds/luci/applications/luci-app-guest-wifi 
-./feeds/luci/applications/luci-app-ramfree 
-./feeds/luci/applications/luci-app-netdata 
-./feeds/luci/applications/luci-app-accesscontrol 
-./feeds/luci/collections/luci-lib-docker 
-./feeds/luci/themes/luci-theme-argon
-"
-
-function disableDulicatedPkg()
-{
-	if [ -d $1 ];then
-		rm -rf $1
-		echo $1" Disabled."
-	fi
-}
+# HomeLede build preparation.
+#
+# Duplicate-package resolution is handled purely by feed ORDER in
+# feeds.conf.default: scripts/feeds install -a grants each package name to the
+# FIRST feed providing it (pwPkgs > packages > luci > ...).
+# Do NOT reintroduce rm -rf suppression lists here: feeds update -a does a
+# git pull per feed and resurrects deleted dirs, silently undoing them.
 
 ./scripts/feeds update -a
 
 # Re-apply our in-tree customizations to the freshly pulled feeds.
-# `feeds update` does a `git pull` per feed and silently resets in-place edits,
-# so the overview-page block registration is replayed here every build.
+# feeds update git-resets in-place edits, so the overview-page block
+# registration is replayed here every build.
 ./custom/apply-feed-customizations.sh || exit 1
-
-for disablePkg in $disablePkgsList
-do
-	disableDulicatedPkg $disablePkg
-done
 
 ./scripts/feeds update -i
 ./scripts/feeds install -a
 
-if [ ! -f .config ];then
-cp defconfig .config
-echo "Default .config created."
+if [ ! -f .config ]; then
+\tcp defconfig .config
+\techo "Default .config created."
 fi
