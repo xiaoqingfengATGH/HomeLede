@@ -25,7 +25,7 @@ kmod-usb-net-rtl8152-vendor kmod-r8125-rss kmod-r8126-rss kmod-r8168 kmod-8139cp
 ca-certificates \
 dockerd docker open-vm-tools \
 bind-dig unrar unzip dmesg p7zip \
-luci-theme-infinityfreedom luci-theme-argon-dark-mod luci-theme-netgear luci-theme-opentomato luci-theme-opentomcat \
+luci-theme-argon-dark-mod luci-theme-netgear luci-theme-opentomato luci-theme-opentomcat \
 ipv6helper \
 luci-app-accesscontrol luci-app-control-timewol luci-app-control-webrestriction luci-app-control-weburl \
 luci-app-samba luci-app-cifs-mount  \

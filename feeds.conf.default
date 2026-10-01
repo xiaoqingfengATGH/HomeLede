@@ -4,11 +4,10 @@ src-git packages https://github.com/xiaoqingfengATGH/feeds-packages
 src-git luci https://github.com/coolsnowwolf/luci.git;openwrt-25.12
 src-git routing https://github.com/coolsnowwolf/routing
 src-git telephony https://github.com/coolsnowwolf/telephony.git
-src-git pw2luci https://github.com/xiaoqingfengATGH/feeds-lienol-pw2;main
+#src-git pw2luci https://github.com/xiaoqingfengATGH/feeds-lienol-pw2;main
+src-git pw2luci https://github.com/Openwrt-Passwall/openwrt-passwall2;main
 src-git pwPkgs https://github.com/xiaoqingfengATGH/feeds-lienol-pw-pkgs;main
 src-git xiaoqingfeng https://github.com/xiaoqingfengATGH/feeds-xiaoqingfeng
-# luci-theme-infinityfreedom
-src-git infinityfreedom https://github.com/xiaoqingfengATGH/luci-theme-infinityfreedom.git;classic
 # luci-theme-infinityfreedom-ng
 src-git infinityfreedomng https://github.com/xiaoqingfengATGH/luci-theme-infinityfreedom.git
 src-git lienolPkgs https://github.com/Lienol/openwrt-package
