@@ -5208,7 +5208,7 @@ CONFIG_PACKAGE_luci-mod-admin-full=y
 # 3. Applications
 #
 # CONFIG_PACKAGE_luci-app-HomeledeDnsBundle is not set
-CONFIG_PACKAGE_luci-app-acme=m
+CONFIG_PACKAGE_luci-app-acme=y
 # CONFIG_PACKAGE_luci-app-adblock is not set
 # CONFIG_PACKAGE_luci-app-adbyby-plus is not set
 # CONFIG_PACKAGE_luci-app-adguardhome is not set
@@ -5519,7 +5519,7 @@ CONFIG_PACKAGE_luci-lib-nixio_openssl=y
 # CONFIG_PACKAGE_luci-lib-px5g is not set
 # end of 6. Libraries
 
-CONFIG_PACKAGE_luci-i18n-acme-zh-cn=m
+CONFIG_PACKAGE_luci-i18n-acme-zh-cn=y
 # CONFIG_PACKAGE_luci-i18n-aria2-pt-br is not set
 # CONFIG_PACKAGE_luci-i18n-aria2-ru is not set
 # CONFIG_PACKAGE_luci-i18n-aria2-sv is not set
@@ -6824,7 +6824,7 @@ CONFIG_PACKAGE_HomeRedirect=y
 # CONFIG_PACKAGE_UDPspeeder is not set
 CONFIG_PACKAGE_acme=y
 # CONFIG_PACKAGE_acme-deploy is not set
-# CONFIG_PACKAGE_acme-dnsapi is not set
+CONFIG_PACKAGE_acme-dnsapi=y
 # CONFIG_PACKAGE_acme-notify is not set
 # CONFIG_PACKAGE_adblock is not set
 # CONFIG_PACKAGE_adblock-fast is not set
