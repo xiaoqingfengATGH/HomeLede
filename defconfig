@@ -80,8 +80,6 @@ CONFIG_DEFAULT_ca-certificates=y
 CONFIG_DEFAULT_cfdisk=y
 CONFIG_DEFAULT_coremark=y
 CONFIG_DEFAULT_curl=y
-CONFIG_DEFAULT_ddns-scripts_aliyun=y
-CONFIG_DEFAULT_ddns-scripts_dnspod=y
 CONFIG_DEFAULT_dmesg=y
 CONFIG_DEFAULT_dnsmasq-full=y
 CONFIG_DEFAULT_docker=y
@@ -163,7 +161,6 @@ CONFIG_DEFAULT_luci-app-cifs-mount=y
 CONFIG_DEFAULT_luci-app-control-timewol=y
 CONFIG_DEFAULT_luci-app-control-webrestriction=y
 CONFIG_DEFAULT_luci-app-control-weburl=y
-CONFIG_DEFAULT_luci-app-ddns=y
 CONFIG_DEFAULT_luci-app-dockerman=y
 CONFIG_DEFAULT_luci-app-filetransfer=y
 CONFIG_DEFAULT_luci-app-hd-idle=y
@@ -5985,7 +5982,7 @@ CONFIG_PACKAGE_curl=y
 # CONFIG_PACKAGE_rsync is not set
 # CONFIG_PACKAGE_rsyncd is not set
 # CONFIG_PACKAGE_vsftpd is not set
-CONFIG_PACKAGE_vsftpd-alt=y
+# CONFIG_PACKAGE_vsftpd-alt is not set
 CONFIG_VSFTPD_USE_UCI_SCRIPTS=y
 # CONFIG_PACKAGE_vsftpd-tls is not set
 # CONFIG_PACKAGE_wget-nossl is not set
