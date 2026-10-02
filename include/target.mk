@@ -59,7 +59,7 @@ DEFAULT_PACKAGES.router:=\
 	luci-app-upnp luci-app-autoreboot \
 	luci-app-arpbind luci-app-filetransfer luci-app-vsftpd luci-app-ssr-plus luci-app-vlmcsd \
 	luci-app-accesscontrol luci-app-nlbwmon luci-app-turboacc luci-app-wol curl ca-certificates \
-	kmod-sched-core kmod-sched-bpf kmod-xdp-sockets-diag kmod-veth
+	kmod-xdp-sockets-diag kmod-veth
 
 ifneq ($(DUMP),)
   all: dumpinfo
