@@ -9,7 +9,7 @@ src-git telephony https://github.com/coolsnowwolf/telephony.git
 src-git pw2luci https://github.com/Openwrt-Passwall/openwrt-passwall2;main
 src-git xiaoqingfeng https://github.com/xiaoqingfengATGH/feeds-xiaoqingfeng
 # luci-theme-infinityfreedom-ng
-src-git infinityfreedomng https://github.com/xiaoqingfengATGH/luci-theme-infinityfreedom.git
+src-git infinityfreedomng https://github.com/xiaoqingfengATGH/luci-theme-infinityfreedom.git;ucode
 src-git lienolPkgs https://github.com/Lienol/openwrt-package
 # src-git pw1 https://github.com/xiaoqingfengATGH/feeds-lienol.git
 # strongswanInDocker
