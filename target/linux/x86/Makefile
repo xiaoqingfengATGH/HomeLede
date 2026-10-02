@@ -31,6 +31,7 @@ luci-app-accesscontrol luci-app-control-timewol luci-app-control-webrestriction 
 luci-app-samba luci-app-cifs-mount  \
 luci-app-dockerman luci-app-hd-idle \
 luci-app-homeredirect \
+luci-app-homestatus luci-app-hometunnel \
 luci-app-mwan3 luci-app-syncdial \
 luci-app-ttyd luci-app-upnp luci-app-vlmcsd luci-app-vsftpd luci-app-watchcat luci-app-wol luci-app-ramfree \
 ppp-mod-pppoa ppp-mod-pppoe ppp-mod-pppol2tp ppp-mod-pptp pppossh xl2tpd 
