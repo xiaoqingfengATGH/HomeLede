@@ -53,7 +53,7 @@ DEFAULT_PACKAGES.nas:=\
 	mdadm
 # For router targets
 DEFAULT_PACKAGES.router:=\
-	dnsmasq-full firewall iptables ppp ppp-mod-pppoe odhcp6c odhcpd-ipv6only ip6tables libip6tc kmod-ipt-nat6 \
+	dnsmasq-full ppp ppp-mod-pppoe odhcp6c odhcpd-ipv6only ip6tables libip6tc kmod-ipt-nat6 \
 	block-mount coremark kmod-nf-nathelper kmod-nf-nathelper-extra kmod-ipt-raw kmod-tun \
 	iptables-mod-tproxy iptables-mod-extra ipset ip-full homelede-autoconfig luci luci-proto-ipv6 \
 	luci-app-upnp luci-app-autoreboot \
