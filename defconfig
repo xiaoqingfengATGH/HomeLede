@@ -2170,7 +2170,7 @@ CONFIG_PACKAGE_kmod-ata-via-sata=y
 # CONFIG_PACKAGE_kmod-libsas is not set
 # CONFIG_PACKAGE_kmod-loop is not set
 CONFIG_PACKAGE_kmod-md-mod=y
-# CONFIG_PACKAGE_kmod-md-linear is not set
+CONFIG_PACKAGE_kmod-md-linear=y
 # CONFIG_PACKAGE_kmod-md-multipath is not set
 CONFIG_PACKAGE_kmod-md-raid0=y
 CONFIG_PACKAGE_kmod-md-raid1=y
@@ -8026,3 +8026,5 @@ CONFIG_PACKAGE_strongswan-mod-eap-mschapv2=y
 CONFIG_PACKAGE_strongswan-mod-dhcp=y
 CONFIG_PACKAGE_strongswan-mod-farp=y
 CONFIG_PACKAGE_strongswan-libtls=y
+CONFIG_PACKAGE_miniupnpd-iptables=y
+CONFIG_PACKAGE_luci-app-diskman_INCLUDE_kmod_md_linears=y
