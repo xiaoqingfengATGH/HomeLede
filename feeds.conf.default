@@ -22,3 +22,7 @@ src-git lienolPkgs https://github.com/Lienol/openwrt-package
 #src-git targets https://github.com/openwrt/targets.git
 #src-git oldpackages http://git.openwrt.org/packages.git
 #src-link custom /usr/src/openwrt/custom-feed
+# luci-app-pushbot (serverchan successor, ucode rewrite)
+src-git pushbot https://github.com/xiaoqingfengATGH/feeds-pushbot.git;main
+# sirpdboy partexp upstream
+src-git partexp https://github.com/sirpdboy/luci-app-partexp.git;main
