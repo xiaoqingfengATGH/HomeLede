@@ -69,6 +69,7 @@ DEFAULT_PACKAGES += \
 	ca-certificates \
 	dockerd \
 	docker \
+	cgroupfs-mount \
 	open-vm-tools \
 	bind-dig \
 	unrar \

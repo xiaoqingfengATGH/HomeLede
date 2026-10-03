@@ -2,9 +2,9 @@
 # HomeLede: re-apply customizations to third-party feeds after `./scripts/feeds update`.
 #
 # Why this exists: `./scripts/feeds update -a` does a `git pull` on every feed and will
-# silently discard any in-place edit made to a feed's source tree.  The 驾驶舱 page
-# needs exactly one such edit, so it is expressed here as an idempotent operation that
-# can be replayed any number of times.
+# silently discard any in-place edit made to a feed's source tree.  Such edits live
+# here as idempotent operations that can be replayed any number of times (驾驶舱
+# overview blocks / status title, cgroupfs-mount's cgroup v2 boot mount).
 #
 # Idempotency: each operation asserts its end state (entry present / entry absent) and
 # only writes when that state differs, so it is safe to run repeatedly.
@@ -204,6 +204,84 @@ apply_status_title() {
 	return 0
 }
 
+# ---------------------------------------------------------------- target 3 ----
+# cgroupfs-mount: mount the unified cgroup v2 hierarchy at boot.
+#
+# Kernels from the 6.1x line retire the cgroup v1 controller interfaces
+# (CONFIG_MEMCG_V1 / CONFIG_CPUSETS_V1 default to unset) while the v2
+# cores stay enabled.  The 2020-era cgroupfs-mount in this feed mounts a
+# v1 hierarchy at S01; on such a kernel the v1 tree has no memory or
+# cpuset controllers, dockerd lands on it anyway, and every container
+# resource limit (--memory/--cpus/--cpuset-cpus/--pids-limit) is
+# silently unenforced while docker info prints five WARNINGs.
+#
+# Rewrite the init script to mount cgroup2 on /sys/fs/cgroup and arm the
+# controllers docker uses at the root.  Verified live on the target
+# router: dockerd then reports "Cgroup Version: 2" and the limit
+# warnings disappear; only the meaningless no-swap notice remains on a
+# swap-less machine.
+#
+# Selection note: nothing depends on cgroupfs-mount and dockerd cannot
+# start without a cgroup mount, so target/linux/x86/Makefile carries it
+# in DEFAULT_PACKAGES.
+CG_TARGET='feeds/packages/utils/cgroupfs-mount/files/cgroupfs-mount.init'
+
+apply_cgroup_v2() {
+	_t="$TOPDIR/$CG_TARGET"
+
+	if [ ! -f "$_t" ]; then
+		echo "  [FAIL] $CG_TARGET not found -- run './scripts/feeds update -a' first" >&2
+		return 1
+	fi
+
+	if grep -q "$MARK" "$_t"; then
+		echo "  [ ok ] cgroupfs-mount: v2 boot mount already applied"
+		return 0
+	fi
+
+	if [ "$CHECK_ONLY" = "1" ]; then
+		echo "  [MISS] cgroupfs-mount: still mounts the v1 hierarchy"
+		return 1
+	fi
+
+	# Full replacement, LF-only (the tree is edited from Windows too).
+	# The marker comment doubles as the idempotency probe above.
+	cat > "$_t" <<'HOMELEDE_CGROUP2_EOF'
+#!/bin/sh /etc/rc.common
+
+# HOMELEDE-CUSTOM: mount the unified cgroup v2 hierarchy at boot.
+#
+# This kernel (6.1x+) has the cgroup v1 controller interfaces compiled
+# out (CONFIG_MEMCG_V1 / CONFIG_CPUSETS_V1 unset), so a v1 hierarchy
+# carries no memory/cpuset controllers and dockerd landing on it loses
+# every container resource limit.  Mount cgroup2 at the canonical path
+# dockerd probes and arm the controllers docker uses at the root; the
+# root cgroup is exempt from the no-internal-process rule, so arming
+# works at S01 with every boot process still living in the root.
+
+START=01
+
+boot() {
+	if grep -qs ' /sys/fs/cgroup cgroup2 ' /proc/mounts; then
+		: # already up -- nothing to do
+	else
+		# procd stacks a plain tmpfs over /sys/fs/cgroup; mounting
+		# cgroup2 on top of it is fine and is what dockerd probes.
+		if ! mount -t cgroup2 none /sys/fs/cgroup; then
+			echo "cgroupfs-mount: failed to mount cgroup2 on /sys/fs/cgroup" >&2
+			return 1
+		fi
+	fi
+
+	echo '+cpuset +cpu +io +memory +pids' > /sys/fs/cgroup/cgroup.subtree_control 2>/dev/null || \
+		echo "cgroupfs-mount: warning: could not arm cgroup controllers" >&2
+}
+HOMELEDE_CGROUP2_EOF
+
+	echo "  [done] cgroupfs-mount: mounts cgroup v2 at boot"
+	return 0
+}
+
 # ---------------------------------------------------------------- verify ------
 verify() {
 	rc=0
@@ -271,6 +349,25 @@ verify() {
 		rc=1
 	fi
 
+	# target 3: the cgroup boot mount must be the v2 unified hierarchy.
+	_cg="$TOPDIR/$CG_TARGET"
+	if grep -q 'mount -t cgroup2' "$_cg" 2>/dev/null; then
+		echo "  [ ok ] cgroupfs-mount mounts the unified v2 hierarchy"
+
+		# Parse-check the rewritten init like the patched loader above:
+		# a heredoc with broken quoting would otherwise install a
+		# boot-time syntax error on every fresh feed.
+		if sh -n "$_cg" 2>/dev/null; then
+			echo "  [ ok ] rewritten cgroupfs-mount parses"
+		else
+			echo "  [FAIL] rewritten cgroupfs-mount has a syntax error (sh -n)" >&2
+			rc=1
+		fi
+	else
+		echo "  [FAIL] cgroupfs-mount does not mount cgroup2" >&2
+		rc=1
+	fi
+
 	return $rc
 }
 
@@ -281,5 +378,6 @@ echo "HomeLede feed customizations ($([ "$CHECK_ONLY" = 1 ] && echo check || ech
 # either way, so let every target report and then let verify set the exit code.
 apply_status_include || [ "$CHECK_ONLY" = 1 ] || { echo "aborting" >&2; exit 1; }
 apply_status_title   || [ "$CHECK_ONLY" = 1 ] || { echo "aborting" >&2; exit 1; }
+apply_cgroup_v2      || [ "$CHECK_ONLY" = 1 ] || { echo "aborting" >&2; exit 1; }
 verify || exit 1
 exit 0
