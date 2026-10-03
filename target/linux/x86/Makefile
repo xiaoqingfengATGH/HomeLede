@@ -107,7 +107,7 @@ DEFAULT_PACKAGES += \
 DEFAULT_PACKAGES += acme acme-dnsapi
 
 # system tools
-DEFAULT_PACKAGES += aria2 ariang attr bash blkid coreutils coreutils-base64 coreutils-nohup coreutils-timeout dbus ddns-go dosfstools e100-firmware exfat-fsck exfat-mkfs f2fs-tools f2fsck fdisk firewall4 htop ip6tables-mod-nat iptables-mod-fullconenat iptables-mod-iprange iptables-mod-ipsec iptables-mod-socket iputils-arping jansson jq losetup lyaml mdadm miniupnpd-nftables nftables-json oniguruma openssh-keygen openssh-sftp-server openssl-util parted r8169-firmware resize2fs smartmontools usbutils wireguard-tools wol zerotier
+DEFAULT_PACKAGES += aria2 ariang attr bash blkid coreutils coreutils-base64 coreutils-nohup coreutils-timeout dbus ddns-go dosfstools e100-firmware exfat-fsck exfat-mkfs f2fs-tools f2fsck fdisk firewall4 htop ip6tables-mod-nat iptables-mod-fullconenat iptables-mod-iprange iptables-mod-ipsec iptables-mod-socket iputils-arping jansson jq losetup lyaml mdadm miniupnpd-nftables nftables-json oniguruma openssh-keygen openssh-sftp-server openssl-util parted r8169-firmware resize2fs smartmontools usbutils wol
 
 # file sharing (samba4 + wsdd2/avahi discovery)
 DEFAULT_PACKAGES += avahi-dbus-daemon samba4-libs samba4-server wsdd2
@@ -116,16 +116,16 @@ DEFAULT_PACKAGES += avahi-dbus-daemon samba4-libs samba4-server wsdd2
 DEFAULT_PACKAGES += chinadns-ng geoview haproxy hysteria mosdns naiveproxy pdnsd-alt shadowsocks-rust-sslocal shadowsocks-rust-ssserver shadowsocksr-libev-ssr-local shadowsocksr-libev-ssr-redir shadowsocksr-libev-ssr-server simple-obfs-client sing-box tcping v2dat v2ray-geoip v2ray-geosite v2ray-plugin xray-core
 
 # kernel modules
-DEFAULT_PACKAGES += kmod-alx kmod-ata-ahci kmod-ata-core kmod-ata-piix kmod-ata-sil kmod-ata-sil24 kmod-ata-via-sata kmod-crypto-cbc kmod-crypto-deflate kmod-crypto-echainiv kmod-crypto-kpp kmod-crypto-lib-chacha20 kmod-crypto-lib-chacha20poly1305 kmod-crypto-lib-curve25519 kmod-crypto-lib-poly1305 kmod-e100 kmod-fs-msdos kmod-fs-nfs kmod-fs-nfs-common kmod-fs-nfs-v4 kmod-inet-diag kmod-ipsec kmod-ipsec4 kmod-ipsec6 kmod-ipt-fullconenat kmod-ipt-iprange kmod-ipt-ipsec kmod-ipt-socket kmod-iptunnel6 kmod-loop kmod-md-linear kmod-md-mod kmod-md-raid0 kmod-md-raid1 kmod-md-raid10 kmod-md-raid456 kmod-netlink-diag kmod-nf-socket kmod-nft-fib kmod-nft-fullcone kmod-nft-nat kmod-nft-offload kmod-nft-socket kmod-nft-tproxy kmod-nls-cp932 kmod-nls-cp936 kmod-nls-cp950 kmod-phy-marvell-10g kmod-phy-realtek kmod-r8125 kmod-r8126 kmod-r8169 kmod-shortcut-fe kmod-shortcut-fe-cm kmod-wireguard
+DEFAULT_PACKAGES += kmod-alx kmod-ata-ahci kmod-ata-core kmod-ata-piix kmod-ata-sil kmod-ata-sil24 kmod-ata-via-sata kmod-crypto-cbc kmod-crypto-deflate kmod-crypto-echainiv kmod-crypto-kpp kmod-crypto-lib-chacha20 kmod-crypto-lib-chacha20poly1305 kmod-crypto-lib-curve25519 kmod-crypto-lib-poly1305 kmod-e100 kmod-fs-msdos kmod-fs-nfs kmod-fs-nfs-common kmod-fs-nfs-v4 kmod-inet-diag kmod-ipsec kmod-ipsec4 kmod-ipsec6 kmod-ipt-fullconenat kmod-ipt-iprange kmod-ipt-ipsec kmod-ipt-socket kmod-iptunnel6 kmod-loop kmod-md-linear kmod-md-mod kmod-md-raid0 kmod-md-raid1 kmod-md-raid10 kmod-md-raid456 kmod-netlink-diag kmod-nf-socket kmod-nft-fib kmod-nft-fullcone kmod-nft-nat kmod-nft-offload kmod-nft-socket kmod-nft-tproxy kmod-nls-cp932 kmod-nls-cp936 kmod-nls-cp950 kmod-phy-marvell-10g kmod-phy-realtek kmod-r8125 kmod-r8126 kmod-r8169 kmod-shortcut-fe kmod-shortcut-fe-cm
 
 # libraries
 DEFAULT_PACKAGES += libaio libavahi-client libavahi-dbus-support libcares libdaemon libdbus libev libevdev libexpat libfreetype libgd-full libgmp libgnutls libiconv-full libiwinfo-lua libjpeg-turbo libltdl liblua5.3 liblua5.4 libmbedtls libminiupnpc libnatpmp libnetfilter-conntrack libnettle libnfnetlink libnftnl libparted libpng libsodium libsqlite3 libtasn1 libtiff libuci-lua libudev-zero libudns liburing libusb-1.0 libwebp libxml2 libyaml libzip-gnutls zoneinfo-asia zoneinfo-core
 
 # LuCI applications
-DEFAULT_PACKAGES += luci-app-acme luci-app-aria2 luci-app-ddns-go luci-app-diskman luci-app-filebrowser luci-app-ikev2-manager luci-app-partexp luci-app-passwall2 luci-app-pushbot luci-app-samba4 luci-app-zerotier
+DEFAULT_PACKAGES += luci-app-acme luci-app-aria2 luci-app-ddns-go luci-app-diskman luci-app-filebrowser luci-app-ikev2-manager luci-app-partexp luci-app-passwall2 luci-app-pushbot luci-app-samba4
 
 # LuCI infrastructure
-DEFAULT_PACKAGES += luci-lib-docker luci-proto-wireguard luci-theme-infinityfreedom-ng
+DEFAULT_PACKAGES += luci-lib-docker luci-theme-infinityfreedom-ng
 
 # nginx (https frontend)
 DEFAULT_PACKAGES += nginx-ssl nginx-ssl-util nginx-util
