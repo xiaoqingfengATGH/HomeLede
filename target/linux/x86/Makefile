@@ -104,7 +104,7 @@ DEFAULT_PACKAGES += \
 	xl2tpd
 
 # ACME (Letsencrypt client + DNS API)
-DEFAULT_PACKAGES += acme acme-dnsapi
+DEFAULT_PACKAGES += acme-acmesh acme-acmesh-dnsapi
 
 # system tools
 DEFAULT_PACKAGES += aria2 ariang attr bash blkid coreutils coreutils-base64 coreutils-nohup coreutils-timeout dbus ddns-go dosfstools e100-firmware exfat-fsck exfat-mkfs f2fs-tools f2fsck fdisk firewall4 htop ip6tables-mod-nat iptables-mod-iprange iptables-mod-ipsec iptables-mod-socket iputils-arping jansson jq losetup lyaml mdadm miniupnpd-nftables nftables-json oniguruma openssh-keygen openssh-sftp-server openssl-util parted r8169-firmware resize2fs smartmontools usbutils wol
