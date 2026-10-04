@@ -15,16 +15,13 @@ COMPILE_MARK=v$COMPILE_DATE
 echo $COMPILE_MARK > $DIR/base-files/files/etc/buildmark
 echo Compile mark set to $COMPILE_MARK
 
-# Upstream lean revision (LV). lean used to keep a version literal in
-# lean/default-settings zzz-default-settings (R24.8.1, R26.05.20...); since
-# upstream 4947846ea the value is generated from the build date instead
-# (date +%y.%-m.%-d, e.g. R26.10.1) inside the default-settings package,
-# which this tree no longer ships (homelede-autoconfig owns first-boot
-# identity). Derive the same value from the release date so banner and
-# buildmark always describe the same build.
-IFS=. read Y M D <<< "$COMPILE_DATE"
-LV="R$((10#$Y % 100)).$((10#$M)).$((10#$D))"
-
-sed -i "s/^.*%D.*$/ HomeLede $COMPILE_MARK based on %D $LV/g" $DIR/base-files/files/etc/banner
+# The OpenWrt base version stays as the %V placeholder: base-files expands it
+# at package install time (include/version.mk VERSION_SED_SCRIPT) from the
+# same VERSION_NUMBER that lands in /etc/openwrt_release DISTRIB_RELEASE, so
+# banner and openwrt_release can never disagree.
+# (lean used to keep an R-version literal here; upstream 4947846ea replaced it
+# with a build-date placeholder expanded inside the default-settings package -
+# which this tree retires - so the R-version is no longer a version number.)
+sed -i "s/^.*%D.*$/ HomeLede $COMPILE_MARK based on %D %V/g" $DIR/base-files/files/etc/banner
 echo Banner updated to
 cat $DIR/base-files/files/etc/banner
