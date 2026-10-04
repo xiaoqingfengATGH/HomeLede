@@ -58,7 +58,7 @@ DEFAULT_PACKAGES.router:=\
 	iptables-mod-tproxy iptables-mod-extra ipset ip-full homelede-autoconfig luci luci-proto-ipv6 \
 	luci-app-upnp luci-app-autoreboot \
 	luci-app-arpbind luci-app-vsftpd luci-app-ssr-plus luci-app-vlmcsd \
-	luci-app-accesscontrol luci-app-nlbwmon luci-app-turboacc luci-app-wol curl ca-certificates \
+	luci-app-accesscontrol luci-app-nlbwmon luci-app-wol curl ca-certificates \
 	kmod-xdp-sockets-diag kmod-veth
 
 ifneq ($(DUMP),)
