@@ -7,12 +7,24 @@ while [ -h "$SOURCE"  ]; do
 done
 DIR="$( cd -P "$( dirname "$SOURCE"  )" && pwd  )"
 
-COMPILE_DATE="`date +%Y.%m.%d`"
+# Release date of this HomeLede build (YYYY.MM.DD). Override to re-stamp an
+# already-released version without bumping the date, e.g.:
+#   COMPILE_DATE=2026.10.01 ./package/updateCompileMark
+COMPILE_DATE="${COMPILE_DATE:-$(date +%Y.%m.%d)}"
 COMPILE_MARK=v$COMPILE_DATE
 echo $COMPILE_MARK > $DIR/base-files/files/etc/buildmark
 echo Compile mark set to $COMPILE_MARK
 
-LV=$(cat $DIR/lean/default-settings/files/zzz-default-settings | grep 'DISTRIB_REVISION=' | head -n 1 | cut -d "'" -f 2)
+# Upstream lean revision (LV). lean used to keep a version literal in
+# lean/default-settings zzz-default-settings (R24.8.1, R26.05.20...); since
+# upstream 4947846ea the value is generated from the build date instead
+# (date +%y.%-m.%-d, e.g. R26.10.1) inside the default-settings package,
+# which this tree no longer ships (homelede-autoconfig owns first-boot
+# identity). Derive the same value from the release date so banner and
+# buildmark always describe the same build.
+IFS=. read Y M D <<< "$COMPILE_DATE"
+LV="R$((10#$Y % 100)).$((10#$M)).$((10#$D))"
+
 sed -i "s/^.*%D.*$/ HomeLede $COMPILE_MARK based on %D $LV/g" $DIR/base-files/files/etc/banner
 echo Banner updated to
 cat $DIR/base-files/files/etc/banner
