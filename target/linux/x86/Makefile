@@ -123,7 +123,7 @@ DEFAULT_PACKAGES += kmod-alx kmod-ata-ahci kmod-ata-core kmod-ata-piix kmod-ata-
 DEFAULT_PACKAGES += libaio libavahi-client libavahi-dbus-support libcares libdaemon libdbus libev libevdev libexpat libfreetype libgd-full libgmp libgnutls libiconv-full libiwinfo-lua libjpeg-turbo libltdl liblua5.3 liblua5.4 libmbedtls libminiupnpc libnatpmp libnetfilter-conntrack libnettle libnfnetlink libnftnl libparted libpng libsodium libsqlite3 libtasn1 libtiff libuci-lua libudev-zero libudns liburing libusb-1.0 libwebp libxml2 libyaml libzip-gnutls zoneinfo-asia zoneinfo-core
 
 # LuCI applications
-DEFAULT_PACKAGES += luci-app-acme luci-app-aria2 luci-app-ddns-go luci-app-diskman luci-app-filebrowser luci-app-ikev2-manager luci-app-partexp luci-app-passwall2 luci-app-pushbot luci-app-samba4
+DEFAULT_PACKAGES += luci-app-acme luci-app-aria2 luci-app-ddns-go luci-app-diskman luci-app-filebrowser luci-app-homevpn luci-app-partexp luci-app-passwall2 luci-app-pushbot luci-app-samba4
 
 # LuCI infrastructure
 DEFAULT_PACKAGES += luci-lib-docker luci-theme-infinityfreedom-ng
@@ -137,8 +137,8 @@ DEFAULT_PACKAGES += php8 php8-cgi php8-fastcgi php8-fpm php8-mod-curl php8-mod-d
 # SoftEther VPN (SSL-VPN/L2TP fallback)
 DEFAULT_PACKAGES += softethervpn5-bridge softethervpn5-client softethervpn5-libs softethervpn5-server
 
-# strongSwan IKEv2 server (EAP-MSCHAPv2, managed by luci-app-ikev2-manager)
-DEFAULT_PACKAGES += strongswan strongswan-charon strongswan-default strongswan-libtls strongswan-mod-aes strongswan-mod-attr strongswan-mod-connmark strongswan-mod-constraints strongswan-mod-des strongswan-mod-dhcp strongswan-mod-dnskey strongswan-mod-eap-identity strongswan-mod-eap-mschapv2 strongswan-mod-farp strongswan-mod-fips-prf strongswan-mod-gmp strongswan-mod-hmac strongswan-mod-kdf strongswan-mod-kernel-netlink strongswan-mod-md4 strongswan-mod-md5 strongswan-mod-mgf1 strongswan-mod-pem strongswan-mod-pgp strongswan-mod-pkcs1 strongswan-mod-pubkey strongswan-mod-random strongswan-mod-rc2 strongswan-mod-resolve strongswan-mod-revocation strongswan-mod-sha1 strongswan-mod-sha2 strongswan-mod-socket-default strongswan-mod-sshkey strongswan-mod-updown strongswan-mod-vici strongswan-mod-x509 strongswan-mod-xauth-generic strongswan-mod-xcbc strongswan-swanctl
+# strongSwan IKEv2 server (EAP-MSCHAPv2, managed by luci-app-homevpn)
+DEFAULT_PACKAGES += strongswan strongswan-charon strongswan-default strongswan-libtls strongswan-mod-aes strongswan-mod-attr strongswan-mod-connmark strongswan-mod-constraints strongswan-mod-des strongswan-mod-dhcp strongswan-mod-dnskey strongswan-mod-eap-identity strongswan-mod-eap-mschapv2 strongswan-mod-farp strongswan-mod-fips-prf strongswan-mod-gmp strongswan-mod-hmac strongswan-mod-kdf strongswan-mod-kernel-netlink strongswan-mod-md4 strongswan-mod-md5 strongswan-mod-mgf1 strongswan-mod-pem strongswan-mod-pgp strongswan-mod-pkcs1 strongswan-mod-pubkey strongswan-mod-random strongswan-mod-rc2 strongswan-mod-resolve strongswan-mod-revocation strongswan-mod-sha1 strongswan-mod-sha2 strongswan-mod-socket-default strongswan-mod-sshkey strongswan-mod-updown strongswan-mod-vici strongswan-mod-x509 strongswan-mod-xauth-generic strongswan-mod-xcbc strongswan-swanctl strongswan-mod-curve25519 strongswan-mod-gcm strongswan-mod-openssl strongswan-mod-pkcs8 strongswan-pki
 
 $(eval $(call BuildTarget))
 
