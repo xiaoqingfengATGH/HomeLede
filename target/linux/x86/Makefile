@@ -120,9 +120,6 @@ DEFAULT_PACKAGES += kmod-alx kmod-ata-ahci kmod-ata-core kmod-ata-piix kmod-ata-
 # CPU microcode (both vendors shipped; the kernel loads only the matching one at boot)
 DEFAULT_PACKAGES += intel-microcode amd64-microcode
 
-# IRQ balancing across cores (multi-NIC x86 boxes)
-DEFAULT_PACKAGES += irqbalance luci-app-irqbalance
-
 # libraries
 DEFAULT_PACKAGES += libaio libavahi-client libavahi-dbus-support libcares libdaemon libdbus libev libevdev libexpat libfreetype libgd-full libgmp libgnutls libiconv-full libiwinfo-lua libjpeg-turbo libltdl liblua5.3 liblua5.4 libmbedtls libminiupnpc libnatpmp libnetfilter-conntrack libnettle libnfnetlink libnftnl libparted libpng libsodium libsqlite3 libtasn1 libtiff libuci-lua libudev-zero libudns liburing libusb-1.0 libwebp libxml2 libyaml libzip-gnutls zoneinfo-asia zoneinfo-core
 
