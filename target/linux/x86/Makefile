@@ -130,7 +130,7 @@ DEFAULT_PACKAGES += libaio libavahi-client libavahi-dbus-support libcares libdae
 DEFAULT_PACKAGES += luci-app-homeacme luci-i18n-homeacme-zh-cn luci-app-aria2 luci-app-ddns-go luci-app-diskman luci-app-filebrowser luci-app-homevpn luci-app-partexp luci-app-passwall2 luci-app-pushbot luci-app-samba4
 
 # LuCI infrastructure
-DEFAULT_PACKAGES += luci-lib-docker luci-theme-infinityfreedom-ng
+DEFAULT_PACKAGES += luci-theme-infinityfreedom-ng
 
 # nginx (https frontend)
 DEFAULT_PACKAGES += nginx-ssl nginx-ssl-util nginx-util
