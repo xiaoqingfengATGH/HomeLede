@@ -100,7 +100,6 @@ DEFAULT_PACKAGES += \
 	ppp-mod-pppoe \
 	ppp-mod-pppol2tp \
 	ppp-mod-pptp \
-	pppossh \
 	xl2tpd
 
 # ACME (Letsencrypt client + DNS API)
