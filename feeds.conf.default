@@ -2,7 +2,7 @@ src-git pwPkgs https://github.com/xiaoqingfengATGH/feeds-lienol-pw-pkgs;main
 src-git packages https://github.com/xiaoqingfengATGH/feeds-packages
 #src-git luci https://github.com/xiaoqingfengATGH/feeds-luci
 #src-git luci https://github.com/coolsnowwolf/luci.git;openwrt-24.10
-src-git luci https://github.com/coolsnowwolf/luci.git;openwrt-25.12
+src-git luci https://github.com/xiaoqingfengATGH/feeds-luci.git;openwrt-25.12
 src-git routing https://github.com/coolsnowwolf/routing
 src-git telephony https://github.com/coolsnowwolf/telephony.git
 #src-git pw2luci https://github.com/xiaoqingfengATGH/feeds-lienol-pw2;main
