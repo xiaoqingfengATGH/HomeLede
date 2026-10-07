@@ -135,9 +135,6 @@ DEFAULT_PACKAGES += nginx-ssl nginx-ssl-util nginx-util
 # php8 stack (nginx fastcgi web apps)
 DEFAULT_PACKAGES += php8 php8-cgi php8-fastcgi php8-fpm php8-mod-curl php8-mod-dom php8-mod-gd php8-mod-iconv php8-mod-mbstring php8-mod-mysqlnd php8-mod-opcache php8-mod-pdo php8-mod-pdo-mysql php8-mod-pdo-sqlite php8-mod-session php8-mod-sqlite3 php8-mod-xml php8-mod-xmlreader php8-mod-xmlwriter php8-mod-zip
 
-# SoftEther VPN (SSL-VPN/L2TP fallback)
-DEFAULT_PACKAGES += softethervpn5-bridge softethervpn5-client softethervpn5-libs softethervpn5-server
-
 # strongSwan IKEv2 server (EAP-MSCHAPv2, managed by luci-app-homevpn)
 DEFAULT_PACKAGES += strongswan strongswan-charon strongswan-default strongswan-libtls strongswan-mod-aes strongswan-mod-attr strongswan-mod-connmark strongswan-mod-constraints strongswan-mod-des strongswan-mod-dhcp strongswan-mod-dnskey strongswan-mod-eap-identity strongswan-mod-eap-mschapv2 strongswan-mod-farp strongswan-mod-fips-prf strongswan-mod-gmp strongswan-mod-hmac strongswan-mod-kdf strongswan-mod-kernel-netlink strongswan-mod-md4 strongswan-mod-md5 strongswan-mod-mgf1 strongswan-mod-pem strongswan-mod-pgp strongswan-mod-pkcs1 strongswan-mod-pubkey strongswan-mod-random strongswan-mod-rc2 strongswan-mod-resolve strongswan-mod-revocation strongswan-mod-sha1 strongswan-mod-sha2 strongswan-mod-socket-default strongswan-mod-sshkey strongswan-mod-updown strongswan-mod-vici strongswan-mod-x509 strongswan-mod-xauth-generic strongswan-mod-xcbc strongswan-swanctl strongswan-mod-curve25519 strongswan-mod-gcm strongswan-mod-openssl strongswan-mod-pkcs8 strongswan-pki
 
