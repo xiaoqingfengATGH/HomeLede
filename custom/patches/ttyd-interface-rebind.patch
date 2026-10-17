@@ -1,0 +1,24 @@
+--- a/files/ttyd.init
++++ b/files/ttyd.init
+@@ -97,6 +97,21 @@
+ 	killall "$NAME"
+ }
+ 
++# HOMELEDE-CUSTOM: sockets retain a stale ifindex after bridge recreation.
++# Restart on the configured logical network's next up event, not reload:
++# an unchanged argv (-i br-lan) does not force procd to recreate the socket.
++ttyd_interface_trigger() {
++	local interface enabled
++	config_get_bool enabled "$1" enable 1
++	[ "$enabled" = 1 ] || return 0
++	config_get interface "$1" interface
++	case "$interface" in
++		@?*) procd_add_interface_trigger "interface.up" "${interface#@}" /etc/init.d/ttyd restart ;;
++	esac
++}
++
+ service_triggers() {
+ 	procd_add_reload_trigger "$NAME"
++	config_load "$NAME"
++	config_foreach ttyd_interface_trigger ttyd
+ }

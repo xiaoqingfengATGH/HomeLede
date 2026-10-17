@@ -379,5 +379,7 @@ echo "HomeLede feed customizations ($([ "$CHECK_ONLY" = 1 ] && echo check || ech
 apply_status_include || [ "$CHECK_ONLY" = 1 ] || { echo "aborting" >&2; exit 1; }
 apply_status_title   || [ "$CHECK_ONLY" = 1 ] || { echo "aborting" >&2; exit 1; }
 apply_cgroup_v2      || [ "$CHECK_ONLY" = 1 ] || { echo "aborting" >&2; exit 1; }
+# Replayed after every feed update; upstream drift must stop preparation.
+"$TOPDIR/custom/apply-ttyd-customization.sh" ${1:-} || exit 1
 verify || exit 1
 exit 0
