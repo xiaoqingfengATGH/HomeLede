@@ -4,7 +4,7 @@
 # Duplicate-package resolution normally follows feed ORDER in
 # feeds.conf.default: scripts/feeds install -a grants each package name to the
 # FIRST feed providing it (pwPkgs > packages > luci > ...).
-# ddns-go is an explicit exception selected below from our custom feed.
+# ddns-go and open-vm-tools are explicit exceptions selected from our custom feed.
 # Do NOT reintroduce rm -rf suppression lists here: feeds update -a does a
 # git pull per feed and resurrects deleted dirs, silently undoing them.
 #
@@ -38,17 +38,19 @@ for pkg in homepublish homepublish-engines luci-app-homepublish; do
 done
 
 # -f only overrides core packages; it does not replace an installed feed link.
-# Remove only this source's old selection, then prefer our same-name package.
-[ -f feeds/xiaoqingfeng/ddns-go/Makefile ] || {
-	echo "Missing custom ddns-go package in xiaoqingfeng feed" >&2
-	exit 1
-}
-./scripts/feeds uninstall ddns-go || exit 1
-./scripts/feeds install -f -p xiaoqingfeng ddns-go || exit 1
-[ "$(readlink package/feeds/xiaoqingfeng/ddns-go)" = '../../../feeds/xiaoqingfeng/ddns-go' ] || {
-	echo "Custom ddns-go feed selection failed" >&2
-	exit 1
-}
+# Remove each source's old selection, then prefer our same-name custom package.
+for pkg in ddns-go open-vm-tools; do
+	[ -f "feeds/xiaoqingfeng/$pkg/Makefile" ] || {
+		echo "Missing custom $pkg package in xiaoqingfeng feed" >&2
+		exit 1
+	}
+	./scripts/feeds uninstall "$pkg" || exit 1
+	./scripts/feeds install -f -p xiaoqingfeng "$pkg" || exit 1
+	[ "$(readlink "package/feeds/xiaoqingfeng/$pkg")" = "../../../feeds/xiaoqingfeng/$pkg" ] || {
+		echo "Custom $pkg feed selection failed" >&2
+		exit 1
+	}
+done
 
 if [ ! -f .config ]; then
 	cp scripts/seed.config .config
