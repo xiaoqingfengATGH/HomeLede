@@ -19,6 +19,8 @@ case "$*" in
     if [ ! -L package/feeds/xiaoqingfeng/ddns-go ]; then
       ln -sf ../../../feeds/packages/net/ddns-go package/feeds/packages/ddns-go
     fi ;;
+  'uninstall luci-app-ipsec-server') ;;
+  'install -f -p xiaoqingfeng homepublish'|'install -f -p xiaoqingfeng homepublish-engines'|'install -f -p xiaoqingfeng luci-app-homepublish') ;;
   'uninstall ddns-go') rm -f package/feeds/*/ddns-go ;;
   'install -f -p xiaoqingfeng ddns-go')
     [ "${FAIL_OVERRIDE:-0}" = 0 ] || exit 7
