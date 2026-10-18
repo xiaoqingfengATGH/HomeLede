@@ -92,7 +92,7 @@ DEFAULT_PACKAGES += \
 	luci-app-syncdial \
 	luci-app-ttyd \
 	luci-app-upnp \
-	luci-app-vlmcsd \
+	luci-app-homekms \
 	luci-app-vsftpd \
 	luci-app-watchcat \
 	luci-app-wol \
@@ -124,7 +124,7 @@ DEFAULT_PACKAGES += intel-microcode amd64-microcode
 DEFAULT_PACKAGES += libaio libavahi-client libavahi-dbus-support libcares libdaemon libdbus libev libevdev libexpat libfreetype libgd-full libgmp libgnutls libiconv-full libiwinfo-lua libjpeg-turbo libltdl liblua5.3 liblua5.4 libmbedtls libminiupnpc libnatpmp libnetfilter-conntrack libnettle libnfnetlink libnftnl libparted libpng libsodium libsqlite3 libtasn1 libtiff libuci-lua libudev-zero libudns liburing libusb-1.0 libwebp libxml2 libyaml libzip-gnutls zoneinfo-asia zoneinfo-core
 
 # LuCI applications
-DEFAULT_PACKAGES += luci-app-homeacme luci-i18n-homeacme-zh-cn luci-app-aria2 luci-app-ddns-go luci-app-diskman luci-app-filebrowser luci-app-homevpn luci-app-partexp luci-app-passwall2 luci-app-pushbot luci-app-samba4
+DEFAULT_PACKAGES += luci-app-homeacme luci-i18n-homeacme-zh-cn luci-app-aria2 luci-app-ddns-go luci-app-diskman luci-app-filebrowser luci-app-homevpn luci-app-homepublish luci-app-partexp luci-app-passwall2 luci-app-pushbot luci-app-samba4
 
 # LuCI infrastructure
 DEFAULT_PACKAGES += luci-theme-infinityfreedom-ng
