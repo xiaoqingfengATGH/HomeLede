@@ -18,6 +18,9 @@
 #     sing-box/...) are seeded from scripts/seed.config (standard seed ->
 #     make defconfig flow, same mechanism as upstream OpenWrt CI).
 
+# Apply owned build patches before any image is generated.
+./custom/apply-image-customizations.sh || exit 1
+
 ./scripts/feeds update -a
 
 # Re-apply our in-tree customizations to the freshly pulled feeds.

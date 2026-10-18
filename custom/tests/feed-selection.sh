@@ -6,6 +6,8 @@ TEST_ROOT=$(mktemp -d "${TMPDIR:-/tmp}/homelede-feed-selection.XXXXXX")
 trap 'rm -rf "$TEST_ROOT"' EXIT HUP INT TERM
 mkdir -p "$TEST_ROOT/scripts" "$TEST_ROOT/custom" "$TEST_ROOT/package/feeds/packages" "$TEST_ROOT/package/feeds/xiaoqingfeng"
 cp "$ROOT/prepareCompile.sh" "$TEST_ROOT/prepareCompile.sh"
+printf '#!/bin/sh\nexit 0\n' > "$TEST_ROOT/custom/apply-image-customizations.sh"
+chmod +x "$TEST_ROOT/custom/apply-image-customizations.sh"
 printf 'seed\n' > "$TEST_ROOT/scripts/seed.config"
 printf '#!/bin/sh\nexit 0\n' > "$TEST_ROOT/custom/apply-feed-customizations.sh"
 cat > "$TEST_ROOT/scripts/feeds" <<'STUB'
