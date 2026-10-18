@@ -28,6 +28,15 @@
 ./scripts/feeds update -i
 ./scripts/feeds install -a
 
+# This unused legacy UI introduces structural StrongSwan/PPP Kconfig cycles.
+# HomeVPN uses its own frontend; keep StrongSwan itself available.
+./scripts/feeds uninstall luci-app-ipsec-server || exit 1
+
+# Stale core metadata must not hide our HomePublish feed providers.
+for pkg in homepublish homepublish-engines luci-app-homepublish; do
+	./scripts/feeds install -f -p xiaoqingfeng "$pkg" || exit 1
+done
+
 # -f only overrides core packages; it does not replace an installed feed link.
 # Remove only this source's old selection, then prefer our same-name package.
 [ -f feeds/xiaoqingfeng/ddns-go/Makefile ] || {
