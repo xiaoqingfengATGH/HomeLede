@@ -190,10 +190,6 @@ macOS 原生系统进行编译：
 
 链接：https://drive.google.com/open?id=1iUDsgh1y5qouP48V61aTsswi3IekscKk
 
-## Stargazers over time
-
-[![Stargazers over time](https://starchart.cc/xiaoqingfengATGH/HomeLede.svg)](https://starchart.cc/xiaoqingfengATGH/HomeLede)
-
 ## 交流
 * [电报群](https://t.me/t_homelede)
 * [QQ群1：1030484865](https://jq.qq.com/?_wv=1027&k=PtlQp9Z9)
