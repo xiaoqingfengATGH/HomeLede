@@ -1,9 +1,7 @@
-From: Sven Eckelmann <sven@narfation.org>
-Date: Fri, 27 Mar 2026 00:17:23 +0100
-Subject: Fix endianness when building on big endian systems
+From: lean <chenlin@fnnas.com>
+Subject: [PATCH] Fix endianness when building on big endian systems
 
-Signed-off-by: Sven Eckelmann <sven@narfation.org>
-Forwarded: https://github.com/balika011/realtek_phy_firmware/pull/2
+Signed-off-by: lean <chenlin@fnnas.com>
 
 --- a/phy_patch.c
 +++ b/phy_patch.c
@@ -15,7 +13,7 @@ Forwarded: https://github.com/balika011/realtek_phy_firmware/pull/2
  
  #include "phy_patch.h"
  
-@@ -12,11 +13,11 @@ int phy_patch_op(rt_phy_patch_db_t *pPhy
+@@ -12,11 +13,11 @@
  
      op.patch_op = patch_op;
      op.portmask = portmask;
@@ -30,7 +28,7 @@ Forwarded: https://github.com/balika011/realtek_phy_firmware/pull/2
  
      return pPhy_patchDb->fPatch_op(phydev, &op);
  }
-@@ -41,11 +42,11 @@ static int _phy_patch_process(struct phy
+@@ -41,11 +42,11 @@
  	{
  		patch.patch_op = pPatch[i].patch_op;
  		patch.portmask = pPatch[i].portmask;

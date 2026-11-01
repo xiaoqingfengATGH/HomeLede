@@ -1,48 +1,40 @@
 #!/bin/sh /etc/rc.common
-#
-# Copyright (C) 2025 openwrt.org
-#
 
 START=99
 
-. "$IPKG_INSTROOT/lib/functions.sh"
-
-find_nct7802()
+configure_fan()
 {
-	for hwmon in /sys/class/hwmon/hwmon*; do
-		if [ -f "$hwmon/name" ] && [ "$(cat "$hwmon/name" 2>/dev/null)" = "nct7802" ]; then
-			echo "$hwmon"
-			return
-		fi
-	done
-	echo "/sys/class/hwmon/hwmon5" # fallback
+	local hwmon="$1"
+
+	# Leave the fan at full speed if programming the automatic curve fails.
+	echo 255 > "$hwmon/pwm1" || return 1
+	echo 1 > "$hwmon/pwm1_enable" || return 1
+	echo 40000 > "$hwmon/pwm1_auto_point1_temp" || return 1
+	echo 50000 > "$hwmon/pwm1_auto_point2_temp" || return 1
+	echo 60000 > "$hwmon/pwm1_auto_point3_temp" || return 1
+	echo 70000 > "$hwmon/pwm1_auto_point4_temp" || return 1
+	echo 80000 > "$hwmon/pwm1_auto_point5_temp" || return 1
+	echo 54 > "$hwmon/pwm1_auto_point1_pwm" || return 1
+	echo 69 > "$hwmon/pwm1_auto_point2_pwm" || return 1
+	echo 95 > "$hwmon/pwm1_auto_point3_pwm" || return 1
+	echo 199 > "$hwmon/pwm1_auto_point4_pwm" || return 1
+	echo 2 > "$hwmon/pwm1_enable"
 }
 
 boot()
 {
-	case $(board_name) in
-	gemtek,w1700k-ubi)
-		hwmon=$(find_nct7802)
+	local hwmon
 
-		# Temporarily disable automatic fan control to configure curve
-		echo 1 > $hwmon/pwm1_enable
-
-		# Match trigger points from vendor firmware
-		echo 40000 > $hwmon/pwm1_auto_point1_temp
-		echo 50000 > $hwmon/pwm1_auto_point2_temp
-		echo 60000 > $hwmon/pwm1_auto_point3_temp
-		echo 70000 > $hwmon/pwm1_auto_point4_temp
-		echo 80000 > $hwmon/pwm1_auto_point5_temp
-
-		# Match fan speed from vendor firmware
-		echo 54  > $hwmon/pwm1_auto_point1_pwm
-		echo 69  > $hwmon/pwm1_auto_point2_pwm
-		echo 95  > $hwmon/pwm1_auto_point3_pwm
-		echo 199 > $hwmon/pwm1_auto_point4_pwm
-
-		# Re-enable automatic fan control
-		echo 2 > $hwmon/pwm1_enable
-		;;
+	. /lib/functions.sh
+	case "$(board_name)" in
+		gemtek,xr1710g|gemtek,w1700k-ubi) ;;
+		*) return 0 ;;
 	esac
+	for hwmon in /sys/class/hwmon/hwmon*; do
+		[ -r "$hwmon/name" ] || continue
+		[ "$(cat "$hwmon/name")" = nct7802 ] || continue
+		[ -w "$hwmon/pwm1_auto_point5_temp" ] || continue
+		configure_fan "$hwmon"
+		return $?
+	done
 }
-

@@ -1,5 +1,26 @@
 DTS_DIR := $(DTS_DIR)/qcom
 
+define Build/asus-fake-ramdisk
+	dd if=/dev/zero bs=32 count=1 > $(KDIR)/tmp/fakerd
+endef
+
+define Build/asus-fake-rootfs
+	$(eval comp=$(word 1,$(1)))
+	$(eval filepath=$(word 2,$(1)))
+	$(eval filecont=$(word 3,$(1)))
+	rm -rf $(KDIR)/tmp/fakefs $(KDIR)/tmp/fakehsqs
+	mkdir -p $(KDIR)/tmp/fakefs/$$(dirname $(filepath))
+	echo '$(filecont)' > $(KDIR)/tmp/fakefs/$(filepath)
+	$(STAGING_DIR_HOST)/bin/mksquashfs4 $(KDIR)/tmp/fakefs $(KDIR)/tmp/fakehsqs -comp $(comp) \
+		-b 4096 -no-exports -no-sparse -no-xattrs -all-root -noappend \
+		$(wordlist 4,$(words $(1)),$(1))
+endef
+
+define Build/asus-trx
+	$(STAGING_DIR_HOST)/bin/asusuimage $(1) -i $@ -o $@.new
+	mv $@.new $@
+endef
+
 define Device/EmmcImage
 	IMAGES += factory.bin
 	IMAGE/factory.bin := append-rootfs | pad-rootfs | pad-to 64k
@@ -42,6 +63,38 @@ define Device/arcadyan_aw1000
 		kmod-gpio-nxp-74hc164 kmod-usb-serial-option uqmi
 endef
 TARGET_DEVICES += arcadyan_aw1000
+
+define Device/asus_rt-ax89x
+	DEVICE_VENDOR := Asus
+	DEVICE_MODEL := RT-AX89X
+	DEVICE_VARIANT := B1/B2
+	BLOCKSIZE := 128k
+	PAGESIZE := 2048
+	DEVICE_DTS_CONFIG := config@hk01
+	SOC := ipq8074
+	DEVICE_PACKAGES := ipq-wifi-asus_rt-ax89x kmod-hwmon-gpiofan \
+		kmod-dsa-qca8k kmod-mdio-gpio kmod-phy-qca83xx kmod-phy-aquantia
+	KERNEL_NAME := vmlinux
+	KERNEL := kernel-bin | libdeflate-gzip
+	KERNEL_IN_UBI := 1
+	IMAGE/sysupgrade.bin/squashfs := \
+		append-kernel | asus-fake-ramdisk | \
+		multiImage gzip $$(KDIR)/tmp/fakerd $$(KDIR)/image-$$(DEVICE_DTS).dtb | \
+		sysupgrade-tar kernel=$$$$@ | append-metadata
+ifeq ($(IB),)
+ifneq ($(CONFIG_TARGET_ROOTFS_INITRAMFS),)
+	ARTIFACTS := initramfs-factory.trx initramfs-uImage.itb
+	ARTIFACT/initramfs-uImage.itb := \
+		append-image-stage initramfs-kernel.bin | fit gzip $$(KDIR)/image-$$(DEVICE_DTS).dtb
+	ARTIFACT/initramfs-factory.trx := \
+		append-image-stage initramfs-kernel.bin | \
+		asus-fake-rootfs xz /lib/firmware/IPQ8074A/fw_version.txt "fake" -no-compression | \
+		multiImage gzip $$(KDIR)/tmp/fakehsqs $$(KDIR)/image-$$(DEVICE_DTS).dtb | \
+		asus-trx -v 2 -n RT-AX89U -b 388 -e 49000
+endif
+endif
+endef
+TARGET_DEVICES += asus_rt-ax89x
 
 define Device/buffalo_wxr-5950ax12
 	$(call Device/FitImage)

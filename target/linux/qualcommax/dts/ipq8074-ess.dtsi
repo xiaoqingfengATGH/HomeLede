@@ -15,6 +15,13 @@
 };
 
 &soc {
+#ifdef IPQ8074_ESS_INSTANCE
+	/* The RT-AX89X bootloader fixes up PHYs below this exact path. */
+	ess-instance {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		num_devices = <1>;
+#endif
 	switch: ess-switch@3a000000 {
 		compatible = "qcom,ess-switch-ipq807x";
 		reg = <0x3a000000 0x1000000>;
@@ -414,6 +421,9 @@
 		};
 	};
 
+#ifdef IPQ8074_ESS_INSTANCE
+	};
+#endif
 	ess-uniphy@7a00000 {
 		compatible = "qcom,ess-uniphy";
 		reg = <0x7a00000 0x30000>;

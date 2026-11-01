@@ -8,6 +8,10 @@
 #include "an758x-nokia_xg-040g-common.dtsi"
 
 / {
+	aliases {
+		pon-calibration = &pon_calibration_storage;
+	};
+
 	gpio-keys {
 		compatible = "gpio-keys";
 
@@ -33,18 +37,23 @@
 			color = <LED_COLOR_ID_GREEN>;
 			function = LED_FUNCTION_WAN;
 			gpios = <&en7581_pinctrl 18 GPIO_ACTIVE_LOW>;
+			/* Registration maps O1-O3 to fast blink, O4 to slow blink, and O5 on. */
+			linux,default-trigger = "pon0-registration";
 		};
 
 		led-2 {
 			color = <LED_COLOR_ID_RED>;
 			function = LED_FUNCTION_WAN;
 			gpios = <&en7581_pinctrl 19 GPIO_ACTIVE_LOW>;
+			/* The pon0-los trigger drives the LOS LED. */
+			linux,default-trigger = "pon0-los";
 		};
 
 		led-3 {
 			color = <LED_COLOR_ID_GREEN>;
 			function = LED_FUNCTION_WAN_ONLINE;
 			gpios = <&en7581_pinctrl 20 GPIO_ACTIVE_LOW>;
+			linux,default-trigger = "pon0-online";
 		};
 
 		led-4 {
@@ -97,6 +106,14 @@
 &en7581_pinctrl {
 	gpio-ranges = <&en7581_pinctrl 0 13 50>;
 
+	/* Select the PON mux while leaving GPIO38 under optical frontend control. */
+	pon_pins: pon-pins {
+		mux {
+			function = "pon";
+			groups = "pon_tx_disable_gpio";
+		};
+	};
+
 	mdio_pins: mdio-pins {
 		mux {
 			function = "mdio";
@@ -131,8 +148,23 @@
 	};
 };
 
+&i2c0 {
+	/* The 0x50 window loads MD32 while the frontend owns runtime window 0x51. */
+	en7572: optical-front-end@50 {
+		compatible = "airoha,en7572";
+		reg = <0x50>;
+
+		/* GPIO38 is the active-high PHY_TX_POWER_DISABLE signal. */
+		tx-disable-gpios = <&en7581_pinctrl 38 GPIO_ACTIVE_HIGH>;
+
+		/* The 512 bytes after the bosa header contain per-device optical data. */
+		nvmem-cells = <&pon_calibration>;
+		nvmem-cell-names = "calibration";
+	};
+};
+
 &mdio {
-	/* Airoha EN8811 2.5Gbps phy */
+	/* Airoha EN8811H 2.5Gbps PHY */
 	en8811: ethernet-phy@f {
 		compatible = "ethernet-phy-id03a2.a411";
 		reg = <0xf>;
@@ -172,6 +204,10 @@
 &gsw_phy2 {
 	status = "okay";
 
+	/*
+	 * The MD variant uses the switch PHY2 link-change interrupt.
+	 * The TF board removes this property and uses phylib polling.
+	 */
 	interrupts = <2>;
 
 	pinctrl-names = "gbe-led";
@@ -275,4 +311,24 @@
 		reg = <1>;
 		#trigger-source-cells = <0>;
 	};
+};
+
+&xpon_mac {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pon_pins>;
+	optical-front-end = <&en7572>;
+	nvmem-cells = <&pon_serial>;
+	nvmem-cell-names = "pon-serial";
+	/* data-path references the GDM carrying service GEM traffic. */
+	data-path = <&gdm2>;
+	status = "okay";
+};
+
+&gdm2 {
+	/* GDM2 carries the PON GEM data plane on AN7581 and AN7583. */
+	airoha,pon-data-path;
+	/* WAN uses the eth0 MAC stored at RI offset 0x3e. */
+	nvmem-cell-names = "mac-address";
+	nvmem-cells = <&macaddr_factory_3e 0>;
+	status = "okay";
 };

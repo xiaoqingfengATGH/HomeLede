@@ -1,0 +1,97 @@
+#!/bin/sh
+
+. /lib/functions/uci-defaults.sh
+. /lib/functions/system.sh
+
+# UBI rounds the declared image size up to full logical eraseblocks.
+pon_data_target()
+{
+	json_add_object "$1"
+	json_add_string type "$2"
+	json_add_int size "$3"
+	[ "$2" = ubi ] && json_add_string parent ubi
+	json_close_object
+}
+
+identity_field()
+{
+	json_add_object "$1"
+	json_add_string kind "$2"
+	json_add_int offset "$3"
+	json_add_int size "$4"
+	json_add_string encoding "$5"
+	[ -n "$6" ] && json_add_int vssn_offset "$6"
+	json_close_object
+}
+
+board_config_update
+case "$(board_name)" in
+znxt,zn504xg-d|znxt,zn515xg-d)
+	json_add_object pon_data
+	# Preserve the complete production reservearea in the factory UBI volume.
+	pon_data_target factory ubi 2359296
+	json_close_object
+	;;
+fiberhome,hg5382a|fiberhome,hg5585f-ct|fiberhome,hg5585f-cu|h3c,hm2004-du)
+	json_add_object pon_data
+	pon_data_target factory ubi 1048576
+	json_close_object
+	;;
+nokia,xg-040g-md-ubi|nokia,xg-040g-tf-ubi)
+	json_add_object pon_data
+	pon_data_target bosa ubi 262144
+	pon_data_target ri ubi 262144
+	json_close_object
+	;;
+esac
+case "$(board_name)" in
+znxt,zn504xg-d|znxt,zn515xg-d)
+	identity_available=1
+	case "$(board_name)" in
+	znxt,zn504xg-d) pon_sn_offset=1314891;;
+	znxt,zn515xg-d) pon_sn_offset=1314915;;
+	esac
+	json_add_object identity
+	json_add_object targets
+	json_add_object factory
+	json_add_object fields
+	identity_field pon_sn pon-sn "$pon_sn_offset" 12 pon-ascii12
+	identity_field board_mac mac 1314852 12 mac-hex12
+	json_close_object
+	json_close_object
+	json_close_object
+	json_close_object
+	;;
+h3c,hm2004-du)
+	identity_available=1
+	json_add_object identity
+	json_add_object targets
+	json_add_object factory
+	json_add_object fields
+	identity_field pon_sn pon-sn 96 12 pon-ascii12
+	json_close_object
+	json_close_object
+	json_close_object
+	json_close_object
+	;;
+nokia,xg-040g-md-ubi|nokia,xg-040g-tf-ubi)
+	identity_available=1
+	json_add_object identity
+	json_add_object targets
+	json_add_object ri
+	# RI couples the display SN to a raw VSSN copy and two record checksums.
+	json_add_string codec nokia-ri-v1
+	json_add_object fields
+	identity_field pon_sn pon-sn 26 12 pon-ascii12 88
+	identity_field board_mac mac 62 6 mac-binary6
+	json_close_object
+	json_close_object
+	json_close_object
+	json_close_object
+	;;
+esac
+
+board_config_flush
+if [ "$identity_available" = 1 ]; then
+	touch /tmp/pon-board-identity.available
+fi

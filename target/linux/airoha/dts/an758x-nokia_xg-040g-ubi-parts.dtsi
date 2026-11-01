@@ -25,8 +25,20 @@
 		compatible = "linux,ubi";
 
 		volumes {
-			ubi-volume-bosa {
+			pon_calibration_storage: ubi-volume-bosa {
 				volname = "bosa";
+
+				nvmem-layout {
+					compatible = "fixed-layout";
+
+					#address-cells = <1>;
+					#size-cells = <1>;
+
+					/* The UBI volume retains its header while NVMEM exposes 512-byte BOB. */
+					pon_calibration: calibration@2 {
+						reg = <0x2 0x200>;
+					};
+				};
 			};
 
 			ubi-volume-factory {
@@ -37,6 +49,11 @@
 
 					#address-cells = <1>;
 					#size-cells = <1>;
+
+					/* RI offset 0x1a stores VEND plus eight hexadecimal VSSN characters. */
+					pon_serial: pon-serial@1a {
+						reg = <0x1a 0xc>;
+					};
 
 					macaddr_factory_3e: macaddr@3e {
 						compatible = "mac-base";

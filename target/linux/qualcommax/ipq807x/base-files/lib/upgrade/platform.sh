@@ -4,12 +4,34 @@ REQUIRE_IMAGE_METADATA=1
 RAMFS_COPY_BIN='fw_printenv fw_setenv head'
 RAMFS_COPY_DATA='/etc/fw_env.config /var/lock/fw_printenv.lock'
 
+asus_initial_setup() {
+	# Keep Factory and the other OEM volumes intact.
+	[ "$(rootfs_type)" = "tmpfs" ] || return 0
+
+	ubirmvol /dev/ubi0 -N linux
+	ubirmvol /dev/ubi0 -N jffs2
+}
+
+platform_pre_upgrade() {
+	case "$(board_name)" in
+	asus,rt-ax89x)
+		asus_initial_setup
+		;;
+	esac
+}
+
 platform_check_image() {
 	return 0;
 }
 
 platform_do_upgrade() {
 	case "$(board_name)" in
+	asus,rt-ax89x)
+		CI_UBIPART="UBI_DEV"
+		CI_KERNPART="linux"
+		CI_ROOTPART="jffs2"
+		nand_do_upgrade "$1"
+		;;
 	aliyun,ap8220|\
 	arcadyan,aw1000|\
 	cmcc,rm2-6|\

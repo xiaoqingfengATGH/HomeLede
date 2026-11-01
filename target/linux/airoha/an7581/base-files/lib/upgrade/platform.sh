@@ -2,21 +2,39 @@ RAMFS_COPY_BIN='fitblk fit_check_sign'
 
 REQUIRE_IMAGE_METADATA=1
 
-nokia_initial_setup()
-{
-	[ "$(rootfs_type)" = "tmpfs" ] || return 0
+airoha_require_ubi_layout() {
+	local ubidev volume fip_volume
 
-	fw_setenv bootcmd "flash read 0xc0000 0x800000 0x85000000; bootm 0x85000000"
+	ubidev="$(nand_find_ubi ubi)"
+	for volume in fit fip ubootenv ubootenv2 "$@"; do
+		if [ -z "$(nand_find_volume "$ubidev" "$volume")" ]; then
+			echo "Required UBI volume $volume is missing; repair the layout from U-Boot recovery."
+			return 1
+		fi
+	done
+
+	fip_volume="$(nand_find_volume "$ubidev" fip)"
+	[ "$(cat "/sys/class/ubi/$fip_volume/data_bytes")" -gt 0 ] || {
+		echo "The fip volume is empty; install BL31/U-Boot first."
+		return 1
+	}
 }
 
 platform_check_image() {
-	local board=$(board_name)
-
 	[ "$#" -gt 1 ] && return 1
 
-	case "$board" in
-	nokia,xg-040g-md)
-		nand_do_platform_check "$board" "$1"
+	case "$(board_name)" in
+	gemtek,xg2010g|\
+	gemtek,xr1710g|\
+	fiberhome,hg5382a|\
+	fiberhome,hg5585f-ct|\
+	fiberhome,hg5585f-cu|\
+	znxt,zn504xg-d|\
+	znxt,zn515xg-d|\
+	h3c,hm2004-du|\
+	nokia,xg-040g-md-ubi|\
+	nokia,xg-040g-tf-ubi)
+		fit_check_image "$1"
 		return $?
 		;;
 	esac
@@ -25,23 +43,34 @@ platform_check_image() {
 }
 
 platform_do_upgrade() {
-	local board=$(board_name)
-
-	case "$board" in
+	case "$(board_name)" in
+	gemtek,xr1710g)
+		# Legacy vendor/chainloader/BMT layout has no UBI fip volume.
+		local ubidev volume
+		ubidev="$(nand_find_ubi ubi)"
+		for volume in fit factory ubootenv ubootenv2; do
+			[ -n "$(nand_find_volume "$ubidev" "$volume")" ] || {
+				echo "Required UBI volume $volume is missing; repair the layout from U-Boot recovery."
+				return 1
+			}
+		done
+		fit_do_upgrade "$1"
+		;;
+	gemtek,xg2010g|\
+	fiberhome,hg5382a|\
+	fiberhome,hg5585f-ct|\
+	fiberhome,hg5585f-cu|\
+	znxt,zn504xg-d|\
+	znxt,zn515xg-d|\
+	h3c,hm2004-du)
+		airoha_require_ubi_layout factory && fit_do_upgrade "$1"
+		;;
+	nokia,xg-040g-md-ubi|\
+	nokia,xg-040g-tf-ubi)
+		airoha_require_ubi_layout bosa ri && fit_do_upgrade "$1"
+		;;
 	*)
 		nand_do_upgrade "$1"
-		;;
-	esac
-}
-
-platform_pre_upgrade() {
-	local board=$(board_name)
-
-	case "$board" in
-	nokia,xg-040g-md)
-		nokia_initial_setup
-		;;
-	*)
 		;;
 	esac
 }
