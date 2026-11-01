@@ -4,7 +4,7 @@
 # Duplicate-package resolution normally follows feed ORDER in
 # feeds.conf.default: scripts/feeds install -a grants each package name to the
 # FIRST feed providing it (pwPkgs > packages > luci > ...).
-# ddns-go and open-vm-tools are explicit exceptions selected from our custom feed.
+# ddns-go, luci-app-ddns-go and open-vm-tools are selected from our custom feed.
 # Do NOT reintroduce rm -rf suppression lists here: feeds update -a does a
 # git pull per feed and resurrects deleted dirs, silently undoing them.
 #
@@ -42,7 +42,7 @@ done
 
 # -f only overrides core packages; it does not replace an installed feed link.
 # Remove each source's old selection, then prefer our same-name custom package.
-for pkg in ddns-go open-vm-tools; do
+for pkg in ddns-go luci-app-ddns-go open-vm-tools; do
 	[ -f "feeds/xiaoqingfeng/$pkg/Makefile" ] || {
 		echo "Missing custom $pkg package in xiaoqingfeng feed" >&2
 		exit 1

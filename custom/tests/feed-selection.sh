@@ -17,15 +17,15 @@ printf '%s\n' "$*" >> calls
 case "$*" in
   'update -a'|'update -i') ;;
   'install -a')
-    for pkg in ddns-go open-vm-tools; do
+    for pkg in ddns-go luci-app-ddns-go open-vm-tools; do
       if [ ! -L "package/feeds/xiaoqingfeng/$pkg" ]; then
         ln -sf "../../../feeds/packages/net/$pkg" "package/feeds/packages/$pkg"
       fi
     done ;;
   'uninstall luci-app-ipsec-server') ;;
   'install -f -p xiaoqingfeng homepublish'|'install -f -p xiaoqingfeng homepublish-engines'|'install -f -p xiaoqingfeng luci-app-homepublish') ;;
-  'uninstall ddns-go'|'uninstall open-vm-tools') rm -f package/feeds/*/"$2" ;;
-  'install -f -p xiaoqingfeng ddns-go'|'install -f -p xiaoqingfeng open-vm-tools')
+  'uninstall ddns-go'|'uninstall luci-app-ddns-go'|'uninstall open-vm-tools') rm -f package/feeds/*/"$2" ;;
+  'install -f -p xiaoqingfeng ddns-go'|'install -f -p xiaoqingfeng luci-app-ddns-go'|'install -f -p xiaoqingfeng open-vm-tools')
     pkg=$5
     if [ "${FAULT_PKG:-}" = "$pkg" ]; then
       case "${FAULT_MODE:-}" in
@@ -44,7 +44,7 @@ cd "$TEST_ROOT"
 fail() { echo "FAIL: $*" >&2; exit 1; }
 reset_fixture() {
   rm -f .config calls package/feeds/packages/* package/feeds/xiaoqingfeng/*
-  for pkg in ddns-go open-vm-tools; do
+  for pkg in ddns-go luci-app-ddns-go open-vm-tools; do
     mkdir -p "feeds/xiaoqingfeng/$pkg"
     : > "feeds/xiaoqingfeng/$pkg/Makefile"
     ln -s "../../../feeds/packages/net/$pkg" "package/feeds/packages/$pkg"
@@ -55,7 +55,7 @@ expected_calls() {
     'install -f -p xiaoqingfeng homepublish' \
     'install -f -p xiaoqingfeng homepublish-engines' \
     'install -f -p xiaoqingfeng luci-app-homepublish'
-  for selected in ddns-go open-vm-tools; do
+  for selected in ddns-go luci-app-ddns-go open-vm-tools; do
     if [ "${FAULT_PKG:-}" = "$selected" ] && [ "${FAULT_MODE:-}" = missing ]; then
       return
     fi
@@ -76,15 +76,15 @@ reset_fixture
 for pass in 1 2; do
   : > calls
   sh ./prepareCompile.sh
-  for pkg in ddns-go open-vm-tools; do
+  for pkg in ddns-go luci-app-ddns-go open-vm-tools; do
     [ "$(readlink "package/feeds/xiaoqingfeng/$pkg")" = "../../../feeds/xiaoqingfeng/$pkg" ] || fail "custom $pkg was not selected"
     [ ! -e "package/feeds/packages/$pkg" ] && [ ! -L "package/feeds/packages/$pkg" ] || fail "old $pkg link remains"
   done
   assert_calls
   cmp -s scripts/seed.config .config || fail 'config was not seeded'
-  printf 'PASS: both custom providers selected; stale links absent (run %s)\n' "$pass"
+  printf 'PASS: all custom providers selected; stale links absent (run %s)\n' "$pass"
 done
-for FAULT_PKG in ddns-go open-vm-tools; do
+for FAULT_PKG in ddns-go luci-app-ddns-go open-vm-tools; do
   for FAULT_MODE in missing install link; do
     reset_fixture
     export FAULT_PKG FAULT_MODE
