@@ -5,7 +5,7 @@
 [4]: https://github.com/xiaoqingfengATGH/HomeLede/pulls
 [5]: https://img.shields.io/badge/Issues-welcome-brightgreen.svg
 [6]: https://github.com/xiaoqingfengATGH/HomeLede/issues/new
-[7]: https://img.shields.io/badge/release-v2026.10.24-gold.svg?
+[7]: https://img.shields.io/badge/release-v2026.11.01-gold.svg?
 [8]: https://github.com/xiaoqingfengATGH/HomeLede/releases
 [10]: https://img.shields.io/badge/Contact-telegram-blue
 [11]: https://t.me/t_homelede
@@ -186,9 +186,16 @@ macOS 原生系统进行编译：
 5. 重新加载一下 shell 启动文件 `source ~/.bashrc`，然后输入 `bash` 进入 bash shell，就可以和 Linux 一样正常编译了
 
 ## 固件下载
-如需直接编译完成的固件，请访问Google网盘
 
-链接：https://drive.google.com/open?id=1iUDsgh1y5qouP48V61aTsswi3IekscKk
+当前正式版：**v2026.11.01**（x86_64）
+
+文件：`Homelede_2026.11.01`
+
+百度网盘：https://pan.baidu.com/s/1FWh3NWidHkgqOxhoqYzrgw?pwd=dzie 提取码：`dzie`
+
+[版本发布合集与历史下载](https://github.com/xiaoqingfengATGH/HomeLede/wiki/HomeLede%E7%89%88%E6%9C%AC%E5%8F%91%E5%B8%83)
+
+Google网盘：https://drive.google.com/open?id=1iUDsgh1y5qouP48V61aTsswi3IekscKk
 
 ## 交流
 * [电报群](https://t.me/t_homelede)
