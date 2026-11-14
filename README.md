@@ -5,7 +5,7 @@
 [4]: https://github.com/xiaoqingfengATGH/HomeLede/pulls
 [5]: https://img.shields.io/badge/Issues-welcome-brightgreen.svg
 [6]: https://github.com/xiaoqingfengATGH/HomeLede/issues/new
-[7]: https://img.shields.io/badge/release-v2026.11.01-gold.svg?
+[7]: https://img.shields.io/badge/release-v2026.11.14-gold.svg?
 [8]: https://github.com/xiaoqingfengATGH/HomeLede/releases
 [10]: https://img.shields.io/badge/Contact-telegram-blue
 [11]: https://t.me/t_homelede
@@ -213,11 +213,13 @@ macOS 原生系统进行编译：
 
 ## 固件下载
 
-当前正式版：**v2026.11.01**（x86_64）
+当前正式版：**v2026.11.14**（x86_64）
 
-文件：`Homelede_2026.11.01`
+文件：`Homelede_2026.11.14`
 
-百度网盘：https://pan.baidu.com/s/1FWh3NWidHkgqOxhoqYzrgw?pwd=dzie 提取码：`dzie`
+百度网盘：https://pan.baidu.com/s/1nG07VIKq8nyaS9HxYpsvjw?pwd=cv5x 提取码：`cv5x`
+
+> HomeLede 2026 版本之间支持在系统内保留配置更新。升级前建议先备份配置；此说明不适用于从 2024 及更早版本跨代升级。
 
 [版本发布合集与历史下载](https://github.com/xiaoqingfengATGH/HomeLede/wiki/HomeLede%E7%89%88%E6%9C%AC%E5%8F%91%E5%B8%83)
 
